@@ -47,15 +47,25 @@ const AddProduct = (props) => {
     const addProduct = (e) => {
         e.preventDefault();
         let currentList = props.productsList;
+        
+        setData({
+            ...data,
+            id: Math.floor(Math.random() * (1000000 - 1) + 1)
+        })
+
         currentList.push(data);
         props.setProductsList(currentList);
         setData({
+            id: '',
             name: '',
             brand: '',
             price: '',
             model: '',
             description: '',
-            image: ''
+            images: [],
+            category: '',
+            size: '',
+            weight: ''
         })
         onShowAlert();
     }

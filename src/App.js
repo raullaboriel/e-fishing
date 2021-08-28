@@ -10,11 +10,12 @@ import AddProduct from './AddProduct';
 import Home from './Home';
 import Preview from './Preview';
 import Cart from './Cart';
+import style from '../src/styles/style.css'
 
 function App() {
+
   const [productsList, setProductsList] = useState([]);
   const [cart, setCart] = useState([]);
-
   return (
     <Router>
       <Navbar />
@@ -26,7 +27,7 @@ function App() {
             <AddProduct productsList={productsList} setProductsList={setProductsList} />
           } />
 
-        <Route path='/shop' component=
+        <Route path='/shop' style={style} component=
           {() =>
             <Shop productsList={productsList} setProductsList={setProductsList} />
           }/>
