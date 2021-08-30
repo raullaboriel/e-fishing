@@ -7,3 +7,47 @@
     width: 100%;
     height: 100%;
 }
+
+.badge-notification i {
+    width: 100px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+  }
+
+.badge-notification .badge:after {
+    content: "100";
+    position: absolute;
+    background: blue;
+    height: 2rem;
+    top: 1rem;
+    right: 1.5rem;
+    width: 2rem;
+    text-align: center;
+    line-height: 2rem;
+    font-size: 1rem;
+    border-radius: 50%;
+    color: white;
+    border: 1px solid blue;
+}
+
+#ex3 .fa-stack[data-count]:after {
+    position: absolute;
+    right: -20%;
+    top: 1%;
+    content: attr(data-count);
+    font-size: 60%;
+    padding: .6em;
+    border-radius: 50%;
+    line-height: .8em;
+    color: white;
+    background: rgba(255, 0, 0, 0.85);
+    text-align: center;
+    min-width: 1em;
+    font-weight: bold;
+}
+
+#name-link {
+    color: black;
+}

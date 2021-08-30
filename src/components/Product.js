@@ -1,26 +1,18 @@
 import React from 'react';
 import senuelo from '../../src/senuelo.jpg'
-import { useHistory } from "react-router-dom";
-
+import { Link } from 'react-router-dom';
 const Product = (props) => {
-    let history = useHistory();
-
-    const openPreview = (e) => {
-        e.preventDefault();
-        history.push('/preview', props.product);
-    }
-
     return (
-        <div className="col-md-4 mb-4" onClick={e => openPreview(e)}>
+        <div className="col-md-4 mb-4">
             <div className="card mb-1 shadow-sm">
                 <div className="card-img-top" style={{width: '100%', height: '220px'}} focusable="false">
-                    <img src={senuelo} alt='not found' style={{width: '100%', height: '100%', padding: '10px'}}></img>
+                    <Link to={`/preview?id=${props.product.id}`}><img src={senuelo} alt='not found' style={{width: '100%', height: '100%', padding: '10px'}}></img></Link>
                     <title>{props.product.name}</title>
                 </div>
                 <div className="card-body">
                     <div>
-                        <span><b>{props.product.name}</b></span>
-                        <p>L. {props.product.price}</p>
+                        <span><b><Link id='name-link' to={`/preview?id=${props.product.id}`}>{props.product.name}</Link></b></span>
+                        <p>US${props.product.price}</p>
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="btn-group">

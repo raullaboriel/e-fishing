@@ -3,7 +3,7 @@ import {
     Link
 } from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar = (props) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,6 +18,12 @@ const Navbar = () => {
                 <div className="navbar-nav ml-auto">
                     <Link className="nav-link" to="/Cart">Carrito</Link>
                 </div>
+                <Link id="ex3" to='/Cart' style={{color: 'black'}}>
+                    <span className="p1 fa-stack fa-1x has-badge" >
+                        <i className="p2 fa fa-circle fa-stack-2x"></i>
+                        <i className="p3 fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
+                    </span>
+                </Link>
             </div>
         </nav>
     )

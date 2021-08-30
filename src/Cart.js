@@ -22,7 +22,6 @@ const Cart = (props) => {
                     <div className='col-md-3 col-sm-6 justify-content-end p-0'>
                         <button className="btn btn-warning form-control"><small><b>Proceder al pago</b></small></button>
                     </div>
-                      
                 </div>
             );
         }else{
@@ -37,7 +36,9 @@ const Cart = (props) => {
         <div className='container mt-5'>
             <h1>Carrito de compras</h1>
             <div className="mt-3">
-                {props.cart.map((product, index) => <CartProduct product={product} key={index} removeFromCart={removeFromCart} cart={props.cart} setCart={props.setCart}/>)}
+                {props.cart.map((product, index) => 
+                    <CartProduct product={product} key={index} removeFromCart={removeFromCart} cart={props.cart} setCart={props.setCart}
+                />)}
             </div>
             <div >
                 {mostrarSubTotal()}
