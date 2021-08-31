@@ -4,6 +4,14 @@ import {
 } from 'react-router-dom'
 
 const Navbar = (props) => {
+
+    const showLogin = () => {
+        if(!props.user){
+            return (<Link className="nav-link" to="/login">Login</Link>);
+        }
+        return null
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,7 +24,7 @@ const Navbar = (props) => {
                     <Link className="nav-link" to="/addProduct">Agregar producto</Link>
                 </div>
                 <div className="navbar-nav ml-auto">
-                    <Link className="nav-link" to="/Cart">Carrito</Link>
+                    {showLogin()}
                 </div>
                 <Link id="ex3" to='/Cart' style={{color: 'black'}}>
                     <span className="p1 fa-stack fa-1x has-badge" >

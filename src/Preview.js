@@ -74,10 +74,13 @@ const Preview = (props) => {
         setShowAlert(true);
     }
 
+    if(product.name === ''){
+        return(<div></div>)
+    }
+
     return (
         <div className="container mt-3">
             {showAlert && alert()}
-            
             <section className="d-flex flex-row mt-5">
                 <div className="col-8 border-right">
                     <div className="card-img-top" style={{ width: '100%', height: '100%' }} focusable="false">

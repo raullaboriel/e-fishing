@@ -12,15 +12,24 @@ import Preview from './Preview';
 import Cart from './Cart';
 import style from '../src/styles/style.css'
 import axios from 'axios';
+import Login from './Login';
 
 function App() {
 
+  const [user, setUser] = useState(null);
   const [productsList, setProductsList] = useState([]);
   const [cart, setCart] = useState([]);
   
   useEffect(() => {
     getProducts();
-  },[])
+  },[]);
+
+  const login = async (e, credentials) => {
+    e.preventDefault();
+    const response = await axios.post('https://localhost:5001/users/login', credentials, {withCredentials: true});
+    setUser(response.data);
+    console.log(user);
+  }
 
   const getProducts = async () => {
     try {
@@ -34,7 +43,7 @@ function App() {
 
   return (
     <Router>
-      <Navbar cart={cart} />
+      <Navbar user={user} setUser={setUser}/>
       <Switch>
         <Route exact path='/' component={Home} />
 
@@ -55,6 +64,10 @@ function App() {
         <Route path='/Cart' component={
           () =>
             <Cart cart={cart} setCart={setCart} />} />
+
+        <Route path='/login' component={
+          () =>
+            <Login user={user} setUser={setUser} login={login}/>} />
 
       </Switch>
     </Router>

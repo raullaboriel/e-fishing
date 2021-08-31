@@ -1,23 +1,24 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 const AddProduct = (props) => {
 
-    const [showAlert, setShowAlert] = useState (false);
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
         onShowAlert();
     })
 
-    const onShowAlert = () =>{
-        if(showAlert){
-            window.setTimeout(()=>{
+    const onShowAlert = () => {
+        if (showAlert) {
+            window.setTimeout(() => {
                 setShowAlert(false)
             }, 5000)
         }
     }
-    
+
     const alert = () => {
-        return(
+        return (
             <div className="alert alert-success" role="alert">
                 Producto agregado correctamente.
             </div>
@@ -26,13 +27,12 @@ const AddProduct = (props) => {
 
 
     const [data, setData] = useState({
-        id: 0,
         name: '',
         brand: '',
         price: '',
+        category: '',
         model: '',
         description: '',
-        category: '',
         size: '',
         weight: '',
         stock: ''
@@ -46,31 +46,34 @@ const AddProduct = (props) => {
         })
     }
 
-    const addProduct = (e) => {
-
-        e.preventDefault();
-        let currentList = props.productsList;
-        let producto = data;
-        producto['id'] = Math.floor(Math.random() * (1000000 - 1) + 1);
-
-        setData(producto);
-        currentList.push(data);
-        props.setProductsList(currentList);
-
-        setData({
-            id: '',
-            name: '',
-            brand: '',
-            price: '',
-            model: '',
-            description: '',
-            category: '',
-            size: '',
-            weight: '',
-            stock: ''
-        })
-
-        setShowAlert(true);
+    const addProduct = async (e) => {
+        try {
+            e.preventDefault();
+            let product = data;
+            product.price = parseFloat(product.price);
+            product.weight = parseFloat(product.weight);
+            product.stock = parseInt(product.stock);
+            setData(product);
+            
+            console.log(data);
+            const response = await axios.post('https://localhost:5001/products', data);
+            if (response.status === 200) {
+                setShowAlert(true);
+                setData({
+                    name: '',
+                    brand: '',
+                    price: '',
+                    model: '',
+                    description: '',
+                    category: '',
+                    size: '',
+                    weight: '',
+                    stock: ''
+                })
+            }
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     return (
@@ -98,6 +101,28 @@ const AddProduct = (props) => {
                         <div className='flex-fill'>
                             <small><b><span>Modelo</span></b></small>
                             <input required onChange={e => handleDataChange(e)} value={data.model} name='model' className='form-control mb-md-0 mb-2' type='text' placeholder='Escriba el modelo' />
+                        </div>
+                    </div>
+
+                    <div className='d-flex flex-md-row flex-column mb-md-3'>
+                        <div className='flex-fill mr-md-2'>
+                            <small><b><span>Categoria</span></b></small>
+                            <input required onChange={e => handleDataChange(e)} value={data.category} name='category' className='form-control mb-md-0 mb-2' type='text' placeholder='Escriba la categoria' />
+                        </div>
+                        <div className='flex-fill'>
+                            <small><b><span>Tamaño(pulgadas)</span></b></small>
+                            <input required onChange={e => handleDataChange(e)} value={data.size} name='size' className='form-control mb-md-0 mb-2' type='text' placeholder='Escriba el tamaño' />
+                        </div>
+                    </div>
+
+                    <div className='d-flex flex-md-row flex-column mb-md-3'>
+                        <div className='flex-fill mr-md-2'>
+                            <small><b><span>Peso(onzas)</span></b></small>
+                            <input required onChange={e => handleDataChange(e)} value={data.weight} step='.01' name='weight' className='form-control mb-md-0 mb-2' type='number' placeholder='Escriba el peso' />
+                        </div>
+                        <div className='flex-fill'>
+                            <small><b><span>Existencias</span></b></small>
+                            <input required onChange={e => handleDataChange(e)} value={data.stock} name='stock' className='form-control mb-md-0 mb-2' type='number' placeholder='Escriba las existencias' />
                         </div>
                     </div>
 
