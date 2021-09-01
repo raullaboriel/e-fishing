@@ -52,10 +52,12 @@ const AddProduct = (props) => {
             let product = data;
             product.price = parseFloat(product.price);
             product.weight = parseFloat(product.weight);
+            product.size = parseFloat(product.size);
             product.stock = parseInt(product.stock);
-            setData(product);
             
-            const response = await axios.post('https://localhost:5001/products', data);
+            setData(product);
+
+            const response = await axios.post('https://localhost:5001/products', data, { withCredentials: true });
             if (response.status === 200) {
                 setShowAlert(true);
                 setData({
@@ -110,7 +112,7 @@ const AddProduct = (props) => {
                         </div>
                         <div className='flex-fill'>
                             <small><b><span>Tamaño(pulgadas)</span></b></small>
-                            <input required onChange={e => handleDataChange(e)} value={data.size} name='size' className='form-control mb-md-0 mb-2' type='text' placeholder='Escriba el tamaño' />
+                            <input required onChange={e => handleDataChange(e)} value={data.size} name='size' className='form-control mb-md-0 mb-2' type='number' step=".001" placeholder='Escriba el tamaño' />
                         </div>
                     </div>
 

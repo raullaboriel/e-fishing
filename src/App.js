@@ -8,11 +8,11 @@ import {
 } from 'react-router-dom'
 import AddProduct from './AddProduct';
 import Home from './Home';
-import Preview from './Preview';
 import Cart from './Cart';
 import style from '../src/styles/style.css'
 import axios from 'axios';
 import Login from './Login';
+import ProductPreview from './ProductPreview';
 
 function App() {
 
@@ -64,9 +64,9 @@ function App() {
           {() =>
             <Shop productsList={productsList} />
           } />
-
-        <Route exact path='/preview' component={
-          () => <Preview cart={cart} setCart={setCart} />
+        
+        <Route exact path='/productpreview' component={
+          () => <ProductPreview cart={cart} setCart={setCart} />
         } />
 
         <Route path='/Cart' component={
