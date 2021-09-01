@@ -55,7 +55,6 @@ const AddProduct = (props) => {
             product.stock = parseInt(product.stock);
             setData(product);
             
-            console.log(data);
             const response = await axios.post('https://localhost:5001/products', data);
             if (response.status === 200) {
                 setShowAlert(true);
@@ -72,7 +71,7 @@ const AddProduct = (props) => {
                 })
             }
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     }
 

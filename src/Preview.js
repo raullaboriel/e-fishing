@@ -29,7 +29,6 @@ const Preview = (props) => {
         const getProduct = async () => {
             const queryParams = new URLSearchParams(location.search);
             const id = queryParams.get('id');
-            
             const response = await axios.get(`https://localhost:5001/products/${id}`);
             const product = response.data;
             setProduct(product);

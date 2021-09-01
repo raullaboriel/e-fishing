@@ -9,7 +9,15 @@ const Navbar = (props) => {
         if(!props.user){
             return (<Link className="nav-link" to="/login">Login</Link>);
         }
-        return null
+        return (<Link className="nav-link" to="/login">{props.user.name}</Link>)
+    }
+
+    const isAdmin = () => {
+        if(props.user){
+            if(props.user.admin){
+                return <Link className="nav-link" to="/addProduct">Agregar producto</Link>
+            }
+        }
     }
 
     return (
@@ -21,7 +29,7 @@ const Navbar = (props) => {
                 <div className="navbar-nav">
                     <Link className="nav-link" to='/'>Inicio</Link>
                     <Link className="nav-link" to="/shop">Comprar</Link>
-                    <Link className="nav-link" to="/addProduct">Agregar producto</Link>
+                    {isAdmin()}
                 </div>
                 <div className="navbar-nav ml-auto">
                     {showLogin()}

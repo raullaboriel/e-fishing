@@ -16,19 +16,27 @@ import Login from './Login';
 
 function App() {
 
+  const [correctCredentials, setCorrectCredentials] = useState(true);
   const [user, setUser] = useState(null);
   const [productsList, setProductsList] = useState([]);
   const [cart, setCart] = useState([]);
-  
+
   useEffect(() => {
     getProducts();
-  },[]);
+  }, []);
 
   const login = async (e, credentials) => {
     e.preventDefault();
-    const response = await axios.post('https://localhost:5001/users/login', credentials, {withCredentials: true});
-    setUser(response.data);
-    console.log(user);
+      await axios.post('https://localhost:5001/users/login', credentials, { withCredentials: true })
+        .then(response => {
+          if (response.status === 200) {
+            setUser(response.data);
+            return true;
+          }
+        })
+      .catch(error => {
+        setCorrectCredentials(false);
+      });
   }
 
   const getProducts = async () => {
@@ -43,7 +51,7 @@ function App() {
 
   return (
     <Router>
-      <Navbar user={user} setUser={setUser}/>
+      <Navbar user={user} setUser={setUser} />
       <Switch>
         <Route exact path='/' component={Home} />
 
@@ -67,7 +75,7 @@ function App() {
 
         <Route path='/login' component={
           () =>
-            <Login user={user} setUser={setUser} login={login}/>} />
+            <Login user={user} setUser={setUser} login={login} correctCredentials={correctCredentials}/>} />
 
       </Switch>
     </Router>
