@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import senuelo from '../../src/senuelo2.jpeg'
+import senuelo from './2.jpeg'
 
 const CartProduct = (props) => {
 

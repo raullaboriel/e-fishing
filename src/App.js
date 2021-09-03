@@ -6,13 +6,13 @@ import {
   BrowserRouter as Router,
   Switch
 } from 'react-router-dom'
-import AddProduct from './AddProduct';
-import Home from './Home';
-import Cart from './Cart';
+import AddProduct from './components/Product/AddProduct';
+import Home from './components/Home/Home';
+import Cart from './components/Cart/Cart';
 import style from '../src/styles/style.css'
 import axios from 'axios';
-import Login from './Login';
-import ProductPreview from './ProductPreview';
+import Login from './components/Login/Login';
+import ProductPreview from './components/Product/ProductPreview'
 
 function App() {
 
@@ -51,7 +51,7 @@ function App() {
 
   return (
     <Router>
-      <Navbar user={user} setUser={setUser} />
+      <Navbar user={user} setUser={setUser} cart={cart}/>
       <Switch>
         <Route exact path='/' component={Home} />
 

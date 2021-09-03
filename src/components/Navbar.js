@@ -5,16 +5,23 @@ import {
 
 const Navbar = (props) => {
 
+    const showCartAmount = () => {
+        let amount = 0;
+        props.cart.forEach(product => {amount += parseInt(product.amount)});
+        return amount;
+    }
+
+
     const showLogin = () => {
-        if(!props.user){
+        if (!props.user) {
             return (<Link className="nav-link" to="/login">Login</Link>);
         }
         return (<Link className="nav-link" to="/login">{props.user.name}</Link>)
     }
 
     const isAdmin = () => {
-        if(props.user){
-            if(props.user.admin){
+        if (props.user) {
+            if (props.user.admin) {
                 return <Link className="nav-link" to="/addProduct">Agregar producto</Link>
             }
         }
@@ -26,20 +33,27 @@ const Navbar = (props) => {
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div className="navbar-nav">
-                    <Link className="nav-link" to='/'>Inicio</Link>
-                    <Link className="nav-link" to="/shop">Comprar</Link>
-                    {isAdmin()}
-                </div>
-                <div className="navbar-nav ml-auto">
-                    {showLogin()}
-                </div>
-                <Link id="ex3" to='/Cart' style={{color: 'black'}}>
-                    <span className="p1 fa-stack fa-1x has-badge" >
-                        <i className="p2 fa fa-circle fa-stack-2x"></i>
-                        <i className="p3 fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
-                    </span>
-                </Link>
+                <ul className="navbar-nav mb-lg-0 ms-lg-4">
+                    <li><Link className="nav-link" to='/'>Inicio</Link></li>
+                    <li><Link className="nav-link" to="/shop">Comprar</Link></li>
+                    <li>{isAdmin()}</li>
+                </ul>
+                <ul className="ml-auto navbar-nav">
+                    <li>
+                        {showLogin()}
+                    </li>
+                    <li>
+                        <Link to='/cart'>
+                            <form className="d-flex ml-lg-3">
+                                <button className="btn btn-outline-dark" type="submit">
+                                    <i className="bi-cart-fill mr-1"></i>
+                                    Cart
+                                    <span className="badge bg-dark text-white ml-1 rounded-pill">{showCartAmount()}</span>
+                                </button>
+                            </form>
+                        </Link>
+                    </li>
+                </ul>
             </div>
         </nav>
     )

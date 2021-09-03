@@ -1,12 +1,33 @@
-import React from 'react';
-import senuelo from '../../src/senuelo.jpg'
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+
 const Product = (props) => {
+    const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        chargeImage(props.product.id);
+    }, [props.product.id])
+    
+    const chargeImage = async (id) => {
+        try{
+            const response = await axios.get(`https://localhost:5001/images/${id}`);
+            setImage(response.data);
+        }catch(e){
+            console.log(e);
+        }
+    }
+
+    if(image === null){
+        return (<div></div>)
+    }
+    
     return (
         <div className="col-md-4 mb-4">
             <div className="card mb-1 shadow-sm">
                 <div className="card-img-top" style={{width: '100%', height: '220px'}} focusable="false">
-                    <Link to={`/productpreview?id=${props.product.id}`}><img src={senuelo} alt='not found' style={{width: '100%', height: '100%', padding: '10px'}}></img></Link>
+                    <Link to={`/productpreview?id=${props.product.id}`}><img src={image.uris[0].uri} alt='not found' style={{width: '100%', height: '100%', padding: '10px'}}></img></Link>
                     <title>{props.product.name}</title>
                 </div>
                 <div className="card-body">

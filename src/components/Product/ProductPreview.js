@@ -1,11 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useLocation } from 'react-router';
-import senuelo from '../src/senuelo.jpg'
 
 const ProductPreview = (props) => {
     const location = useLocation();
-    const [showAlert, setShowAlert] = useState(false);
     const [amount, setAmount] = useState(1);
 
     const handleAmountChange = (e) => {
@@ -23,48 +21,33 @@ const ProductPreview = (props) => {
         category: '',
         size: '',
         weight: '',
-        stock: ''
+        stock: '',
+        image: []
     });
-    
 
-    useEffect(() => {
-        onShowAlert();
-    })
 
     useEffect(() => {
         const getProduct = async () => {
             const queryParams = new URLSearchParams(location.search);
             const id = queryParams.get('id');
             const response = await axios.get(`https://localhost:5001/products/${id}`);
+            const image = await axios.get(`https://localhost:5001/images/${id}`);
             const product = response.data;
+            product['image'] = image.data;
             setProduct(product);
         }
         getProduct();
     }, [location]);
 
 
-    const onShowAlert = () => {
-        if (showAlert) {
-            window.setTimeout(() => {
-                setShowAlert(false)
-            }, 5000)
-        }
-    }
 
-    const alert = () => {
-        return (
-            <div className="alert alert-success" role="alert">
-                Se agregó al carrito.
-            </div>
-        )
-    }
-
-    const addToCart = () => {
+    const addToCart = (e) => {
+        e.preventDefault();
         let currentProduct = product;
         currentProduct['price'] = parseFloat(currentProduct.price);
         setProduct(currentProduct);
 
-        let currentCart = props.cart;
+        let currentCart = [...props.cart];
         const index = currentCart.findIndex(e => e.id === product.id);
 
         if (index !== -1) {
@@ -76,30 +59,33 @@ const ProductPreview = (props) => {
             currentCart.push(product);
             props.setCart(currentCart);
         }
-        setShowAlert(true);
     }
 
-    if(product.name === ''){
-        return(<div></div>)
+
+
+    if (product.name === '') {
+        return (<div></div>)
     }
 
     return (
         <section className="py-5">
-            {showAlert && alert()}
             <div className="container px-4 px-lg-5 my-5">
                 <div className="row gx-4 gx-lg-5 align-items-center">
-                    <div className="col-md-6"><img className="card-img-top mb-5 mb-md-0" src={senuelo} alt="..."></img></div>
+                    <div className="col-md-6"><img className="card-img-top mb-5 mb-md-0" src={product.image.uris[0].uri} alt="..."></img></div>
                     <div className="col-md-6">
-                        <div className="small mb-1">Modelo: {product.model} | Peso: {product.weight}</div>
                         <h1 className="display-5 fw-bolder">{product.name}</h1>
-                        <div className="fs-5 mb-5">
+                        <div className="d-flex flex-row mb-3">
+                            <div className="mb-1 bg-light font-weight-bold col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.weight} g</div>
+                            <div className="mb-1 bg-light font-weight-bold col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.size} cm</div>
+                        </div>
+                        <div className="fs-5 mb-3">
                             {/*<span className="text-decoration-line-through">$45.00</span>*/}
-                            <span>${product.price}</span>
+                            <span className="font-weight-bold h5">${product.price}</span>
                         </div>
                         <p className="lead">{product.description}</p>
                         <div className="d-flex">
-                            <input className="form-control text-center me-3 mr-1" onChange={e => handleAmountChange(e)} id="inputQuantity" type="num" value={amount} style={{maxWidth: "3rem"}}></input>
-                            <button className="btn btn-outline-dark flex-shrink-0" onClick={() => addToCart()} type="button">
+                            <input className="form-control text-center me-3 mr-1" onChange={e => handleAmountChange(e)} id="inputQuantity" type="num" value={amount} style={{ maxWidth: "3rem" }}></input>
+                            <button className="btn btn-success flex-shrink-0" onClick={e => addToCart(e)} type="button">
                                 <i className="bi-cart-fill me-1"></i>
                                 Add to cart
                             </button>
