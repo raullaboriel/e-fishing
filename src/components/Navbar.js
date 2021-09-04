@@ -7,14 +7,14 @@ const Navbar = (props) => {
 
     const showCartAmount = () => {
         let amount = 0;
-        props.cart.forEach(product => {amount += parseInt(product.amount)});
+        props.cart.forEach(product => { amount += parseInt(product.amount) });
         return amount;
     }
 
 
     const showLogin = () => {
         if (!props.user) {
-            return (<Link className="nav-link" to="/login">Login</Link>);
+            return (<Link className="nav-link" to="/login">Iniciar sesion</Link>);
         }
         return (<Link className="nav-link" to="/login">{props.user.name}</Link>)
     }
@@ -47,7 +47,7 @@ const Navbar = (props) => {
                             <form className="d-flex ml-lg-3">
                                 <button className="btn btn-outline-dark" type="submit">
                                     <i className="bi-cart-fill mr-1"></i>
-                                    Cart
+                                    Carrito
                                     <span className="badge bg-dark text-white ml-1 rounded-pill">{showCartAmount()}</span>
                                 </button>
                             </form>

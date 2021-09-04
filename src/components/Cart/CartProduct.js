@@ -1,18 +1,33 @@
 import React, { useState, useEffect } from 'react'
-import senuelo from './2.jpeg'
+import axios from 'axios';
 
 const CartProduct = (props) => {
+    let product = props.product;
+    const [image, setImage] = useState(null);
+    const index = props.cart.findIndex(item => item.id === product.id);
+    const [getAmount, setAmount] = useState(parseInt(product.amount));
+    const [showUpdate, setShowUpdate] = useState(false);
+
 
     useEffect(() => {
         setAmount(parseInt(props.product.amount));
     }, [props.product.amount])
 
-    let product = props.product;
-    const index = props.cart.findIndex(item => item.id === product.id);
-    const [getAmount, setAmount] = useState(parseInt(product.amount));
-    const [showUpdate, setShowUpdate] = useState(false);
+    useEffect(() => {
+        const chargeImage = async (id) => {
+            try {
+                const response = await axios.get(`https://localhost:5001/images/${id}`);
+                setImage(response.data);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        chargeImage(props.product.id);
+    }, [props.product.id]);
 
-    const updateAmount = () => {
+
+    const updateAmount = (e) => {
+        e.preventDefault();
         let currentCart = [...props.cart];
         currentCart[index].amount = parseInt(getAmount);
         props.setCart(currentCart);
@@ -23,50 +38,48 @@ const CartProduct = (props) => {
         }
     }
 
-    const updateButton = () => {
-        return (
-            <button onClick={() => updateAmount()} className="btn form-control col-2 bg-transparent">
-                <i className="fa fa-refresh p-1" aria-hidden="true"></i>
-            </button>
-        );
-    }
-
     const handleAmountChange = (e) => {
         e.preventDefault();
         setAmount(e.target.value);
         setShowUpdate(true);
     }
 
+    if (image === null) {
+        return (<div></div>);
+    }
+
     return (
-        <div className='d-flex bg-light rounded mb-2 justify-content-between' style={{ height: 130 }}>
-            <div className="row">
-                <div className="col-4 rounded cart-product" >
-                    <img alt='Imagen del producto' className="align-self-start cart-product-img img-fluid rounded" src={senuelo} />
-                </div>
-                <div className="p-2 col-8">
-                    <h5 className="m-0 row">{product.name}</h5>
-                    <p className="m-0 row"><b>US${product.price}</b></p>
-                    <div className="row">
-                        <div className="input-group mb-3 col-md-8 col-7 pr-0 ">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="inputGroup-sizing-default">Cant:</span>
+        <div className="card card-body mb-3 p-0 pb-lg-0 pb-2">
+            <div className="d-flex flex-md-row flex-column">
+                <div className="col-lg-6 pl-0 pr-1 col-md-7 col-12">
+                    <div className="d-flex flex-md-row flex-column p-lg-0 pl-1">
+                        <div className="col-md-5 row">
+                            <div className="card-img-top" style={{ maxWidth: '100%', height: '150px' }}>
+                                <img alt='Imagen del producto' className="align-self-start cart-product-img p-1 img-fluid rounded" src={image.uris[0].uri} />
                             </div>
-                            <input type="number" name="amount" min={0} onChange={e => handleAmountChange(e)} value={getAmount}
-                                className="form-control col-sm-5 col-md-8">
-                            </input>
                         </div>
-                        <div className="" style={{ width: 50 }}>
-                            {showUpdate ? updateButton() : null}
+                        <div className="col-md-7 row-sm align-self-center">
+                            <div>
+                                <span className="h6">{product.name}</span>
+                            </div>
+                            <div>
+                                <span className="h6">${product.price}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="d-flex align-items-start">
-                <div className="p-2">
-                    <button className="btn bg-transparent" onClick={() => props.removeFromCart(props.product.id)}>
-                        <i className="fa fa-times" aria-hidden="true"></i>
-                    </button>
+                <div className="col-md-6 row pl-md-0 pl-3">
+                    <div className="col-md-6 col-6 align-self-md-center">
+                        <div className="input-group input-spinner">
+                            {showUpdate ? <button className="btn btn-light" onClick={e => updateAmount(e)} type="button" id="button-minus"><i className="fa fa-refresh"></i></button> : null}
+                            <input type="number" name="amount" min={0} onChange={e => handleAmountChange(e)} value={getAmount} className="form-control text-center"></input>
+                        </div>
+                    </div>
+                    <div className="d-flex col-md-6 col-6 align-self-md-center justify-content-md-center">
+                        <a onClick={() => props.removeFromCart(props.product.id)} href="#." className="btn btn-light btn-round">Remove</a>
+                    </div>
                 </div>
+
             </div>
         </div>
     )

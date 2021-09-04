@@ -5,6 +5,7 @@ import { useLocation } from 'react-router';
 const ProductPreview = (props) => {
     const location = useLocation();
     const [amount, setAmount] = useState(1);
+    const [showMore, setShowMore] = useState(false);
 
     const handleAmountChange = (e) => {
         e.preventDefault();
@@ -25,21 +26,25 @@ const ProductPreview = (props) => {
         image: []
     });
 
-
     useEffect(() => {
         const getProduct = async () => {
-            const queryParams = new URLSearchParams(location.search);
-            const id = queryParams.get('id');
-            const response = await axios.get(`https://localhost:5001/products/${id}`);
-            const image = await axios.get(`https://localhost:5001/images/${id}`);
-            const product = response.data;
-            product['image'] = image.data;
-            setProduct(product);
+            try{
+                const queryParams = new URLSearchParams(location.search);
+                const id = queryParams.get('id');
+                const response = await axios.get(`https://localhost:5001/products/${id}`);
+                const image = await axios.get(`https://localhost:5001/images/${id}`);
+                const product = response.data;
+                product['image'] = image.data;
+                setProduct(product);
+            }catch(e){
+                console.log(e);
+            }
         }
+        if(product.description.length > 400){
+            setShowMore(true);
+        }    
         getProduct();
-    }, [location]);
-
-
+    }, [location, product.description.length]);
 
     const addToCart = (e) => {
         e.preventDefault();
@@ -61,10 +66,13 @@ const ProductPreview = (props) => {
         }
     }
 
-
-
-    if (product.name === '') {
+    if (product.name === '' || !product.image.uris) {
         return (<div></div>)
+    }
+
+    const onShowMore = (e) => {
+        e.preventDefault();
+        setShowMore(!showMore)
     }
 
     return (
@@ -73,7 +81,7 @@ const ProductPreview = (props) => {
                 <div className="row gx-4 gx-lg-5 align-items-center">
                     <div className="col-md-6"><img className="card-img-top mb-5 mb-md-0" src={product.image.uris[0].uri} alt="..."></img></div>
                     <div className="col-md-6">
-                        <h1 className="display-5 fw-bolder">{product.name}</h1>
+                        <h1 className="display-5 fw-bolder font-weight-bold">{product.name}</h1>
                         <div className="d-flex flex-row mb-3">
                             <div className="mb-1 bg-light font-weight-bold col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.weight} g</div>
                             <div className="mb-1 bg-light font-weight-bold col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.size} cm</div>
@@ -82,10 +90,21 @@ const ProductPreview = (props) => {
                             {/*<span className="text-decoration-line-through">$45.00</span>*/}
                             <span className="font-weight-bold h5">${product.price}</span>
                         </div>
-                        <p className="lead">{product.description}</p>
-                        <div className="d-flex">
-                            <input className="form-control text-center me-3 mr-1" onChange={e => handleAmountChange(e)} id="inputQuantity" type="num" value={amount} style={{ maxWidth: "3rem" }}></input>
-                            <button className="btn btn-success flex-shrink-0" onClick={e => addToCart(e)} type="button">
+
+                        {showMore ?
+                            <div style={{ height: '245px', overflow: 'hidden' }}><p className="lead">{product.description}</p></div>
+                            :
+                            <div><p className="lead">{product.description}</p></div>
+                        }
+                        <a className="text-secondary" href="." onClick={e => onShowMore(e)} >
+                            {product.description.length > 400 && {...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span>}}
+                        </a>
+
+                        {product.stock <= 0 && <div className="pt-2"><span className="text-warning h6">No disponible</span></div>}
+
+                        <div className="d-flex mt-md-2">
+                            <input className="form-control text-center me-3 mr-1" onChange={e => handleAmountChange(e)} disabled={product.stock <= 0} id="inputQuantity" type="num" value={amount} style={{ maxWidth: "3rem" }}></input>
+                            <button className="btn btn-success flex-shrink-0" onClick={e => addToCart(e)} disabled={product.stock <= 0} type="button">
                                 <i className="bi-cart-fill me-1"></i>
                                 Add to cart
                             </button>

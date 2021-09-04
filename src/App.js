@@ -48,6 +48,7 @@ function App() {
       console.log(ex);
     }
   };
+  
 
   return (
     <Router>
@@ -72,6 +73,7 @@ function App() {
         <Route path='/Cart' component={
           () =>
             <Cart cart={cart} setCart={setCart} />} />
+
 
         <Route path='/login' component={
           () =>
