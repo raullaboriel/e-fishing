@@ -127,14 +127,14 @@ const AddProduct = (props) => {
                             <input required onChange={e => handleDataChange(e)} value={data.category} name='category' className='form-control mb-md-0 mb-2' type='text' placeholder='Escriba la categoria' />
                         </div>
                         <div className='flex-fill'>
-                            <small><b><span>Tamaño(pulgadas)</span></b></small>
+                            <small><b><span>Tamaño</span></b></small>
                             <input required onChange={e => handleDataChange(e)} value={data.size} name='size' className='form-control mb-md-0 mb-2' type='number' step=".001" placeholder='Escriba el tamaño' />
                         </div>
                     </div>
 
                     <div className='d-flex flex-md-row flex-column mb-md-3'>
                         <div className='flex-fill mr-md-2'>
-                            <small><b><span>Peso(onzas)</span></b></small>
+                            <small><b><span>Peso</span></b></small>
                             <input required onChange={e => handleDataChange(e)} value={data.weight} step='.01' name='weight' className='form-control mb-md-0 mb-2' type='number' placeholder='Escriba el peso' />
                         </div>
                         <div className='flex-fill'>

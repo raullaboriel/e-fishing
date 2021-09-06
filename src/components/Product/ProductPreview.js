@@ -26,9 +26,25 @@ const ProductPreview = (props) => {
         image: []
     });
 
+    const carouselImage = (imageUri, index) => {
+        if(index === 0){
+            return(            
+                <div key={index} className="carousel-item active">
+                    <img alt='' className="d-block image-fluid  w-100" src={imageUri} data-holder-rendered="true"></img>
+                </div>
+            )
+        }else{
+            return(            
+                <div key={index} className="carousel-item">
+                    <img alt='' className="d-block image-fluid  w-100" src={imageUri} data-holder-rendered="true"></img>
+                </div>
+            )
+        }
+    }
+
     useEffect(() => {
         const getProduct = async () => {
-            try{
+            try {
                 const queryParams = new URLSearchParams(location.search);
                 const id = queryParams.get('id');
                 const response = await axios.get(`https://localhost:5001/products/${id}`);
@@ -36,13 +52,13 @@ const ProductPreview = (props) => {
                 const product = response.data;
                 product['image'] = image.data;
                 setProduct(product);
-            }catch(e){
+            } catch (e) {
                 console.log(e);
             }
         }
-        if(product.description.length > 400){
+        if (product.description.length > 400) {
             setShowMore(true);
-        }    
+        }
         getProduct();
     }, [location, product.description.length]);
 
@@ -77,9 +93,24 @@ const ProductPreview = (props) => {
 
     return (
         <section className="py-5">
-            <div className="container px-4 px-lg-5 my-5">
+            <div className=" px-4 px-lg-5 my-5">
                 <div className="row gx-4 gx-lg-5 align-items-center">
-                    <div className="col-md-6"><img className="card-img-top mb-5 mb-md-0" src={product.image.uris[0].uri} alt="..."></img></div>
+                    <div className="col-md-6">
+                        {/*<img className="card-img-top mb-5 mb-md-0" src={product.image.uris[0].uri} alt="..."></img> */}
+                        <div id="carouselExampleCaptions" className="carousel slide" data-interval="false">
+                            <div className="carousel-inner">
+                                {product.image.uris.map((image, index) => carouselImage(image.uri, index))}
+                            </div>
+                            <a className="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                                <span className="fa fa-chevron-left" style={{color: 'black', fontWeight: 'bold'}} aria-hidden="true"></span>
+                                <span className="sr-only">Previous</span>
+                            </a>
+                            <a className="carousel-control-next" style={{color: 'black'}} href="#carouselExampleCaptions" role="button" data-slide="next">
+                                <span className="fa fa-chevron-right" aria-hidden="true"></span>
+                                <span className="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
                     <div className="col-md-6">
                         <h1 className="display-5 fw-bolder font-weight-bold">{product.name}</h1>
                         <div className="d-flex flex-row mb-3">
@@ -97,7 +128,7 @@ const ProductPreview = (props) => {
                             <div><p className="lead">{product.description}</p></div>
                         }
                         <a className="text-secondary" href="." onClick={e => onShowMore(e)} >
-                            {product.description.length > 400 && {...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span>}}
+                            {product.description.length > 400 && { ...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span> }}
                         </a>
 
                         {product.stock <= 0 && <div className="pt-2"><span className="text-warning h6">No disponible</span></div>}

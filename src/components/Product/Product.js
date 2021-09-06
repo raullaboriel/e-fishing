@@ -23,8 +23,8 @@ const Product = (props) => {
     }
     
     return (
-        <div className="col-md-4 mb-4">
-            <div className="card mb-1 shadow-sm">
+        <div className="col-md-4 mb-4 pl-0 pr-0">
+            <div className="card mb-1 h-100 w-100 shadow-sm border-0 shadow-none">
                 <div className="card-img-top" style={{width: '100%', height: '220px'}} focusable="false">
                     <Link to={`/productpreview?id=${props.product.id}`}><img src={image.uris[0].uri} alt='not found' className="img-fluid" style={{width: '100%', height: '100%', padding: '10px'}}></img></Link>
                     <title>{props.product.name}</title>

@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from './components/Navbar';
-import Shop from './Shop';
-import {
-  Route,
-  BrowserRouter as Router,
-  Switch
-} from 'react-router-dom'
+import Navbar from './components/NavBar/Navbar';
+import Shop from './components/Shop/Shop';
 import AddProduct from './components/Product/AddProduct';
 import Home from './components/Home/Home';
 import Cart from './components/Cart/Cart';
@@ -13,6 +8,11 @@ import style from '../src/styles/style.css'
 import axios from 'axios';
 import Login from './components/Login/Login';
 import ProductPreview from './components/Product/ProductPreview'
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch
+} from 'react-router-dom'
 
 function App() {
 

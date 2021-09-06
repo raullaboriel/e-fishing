@@ -55,7 +55,7 @@ const CartProduct = (props) => {
                     <div className="d-flex flex-md-row flex-column p-lg-0 pl-1">
                         <div className="col-md-5 row">
                             <div className="card-img-top" style={{ maxWidth: '100%', height: '150px' }}>
-                                <img alt='Imagen del producto' className="align-self-start cart-product-img p-1 img-fluid rounded" src={image.uris[0].uri} />
+                                <img alt='Imagen del producto' className="align-self-start cart-product-img p-2 img-fluid rounded" src={image.uris[0].uri} />
                             </div>
                         </div>
                         <div className="col-md-7 row-sm align-self-center">
@@ -71,7 +71,7 @@ const CartProduct = (props) => {
                 <div className="col-md-6 row pl-md-0 pl-3">
                     <div className="col-md-6 col-6 align-self-md-center">
                         <div className="input-group input-spinner">
-                            {showUpdate ? <button className="btn btn-light" onClick={e => updateAmount(e)} type="button" id="button-minus"><i className="fa fa-refresh"></i></button> : null}
+                            {showUpdate ? <button className="btn btn-light" onClick={e => updateAmount(e)} type="button" id="button-minus"><i className="fa fa-check"></i></button> : null}
                             <input type="number" name="amount" min={0} onChange={e => handleAmountChange(e)} value={getAmount} className="form-control text-center"></input>
                         </div>
                     </div>
