@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { useLocation } from 'react-router';
+import { useParams } from 'react-router';
 
 const ProductPreview = (props) => {
-    const location = useLocation();
+    const { id } = useParams();
     const [amount, setAmount] = useState(1);
     const [showMore, setShowMore] = useState(false);
 
@@ -27,14 +27,14 @@ const ProductPreview = (props) => {
     });
 
     const carouselImage = (imageUri, index) => {
-        if(index === 0){
-            return(            
+        if (index === 0) {
+            return (
                 <div key={index} className="carousel-item active">
                     <img alt='' className="d-block image-fluid  w-100" src={imageUri} data-holder-rendered="true"></img>
                 </div>
             )
-        }else{
-            return(            
+        } else {
+            return (
                 <div key={index} className="carousel-item">
                     <img alt='' className="d-block image-fluid  w-100" src={imageUri} data-holder-rendered="true"></img>
                 </div>
@@ -45,8 +45,6 @@ const ProductPreview = (props) => {
     useEffect(() => {
         const getProduct = async () => {
             try {
-                const queryParams = new URLSearchParams(location.search);
-                const id = queryParams.get('id');
                 const response = await axios.get(`https://localhost:5001/products/${id}`);
                 const image = await axios.get(`https://localhost:5001/images/${id}`);
                 const product = response.data;
@@ -60,7 +58,7 @@ const ProductPreview = (props) => {
             setShowMore(true);
         }
         getProduct();
-    }, [location, product.description.length]);
+    }, [id, product.description.length]);
 
     const addToCart = (e) => {
         e.preventDefault();
@@ -102,10 +100,10 @@ const ProductPreview = (props) => {
                                 {product.image.uris.map((image, index) => carouselImage(image.uri, index))}
                             </div>
                             <a className="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                                <span className="fa fa-chevron-left" style={{color: 'black', fontWeight: 'bold'}} aria-hidden="true"></span>
+                                <span className="fa fa-chevron-left" style={{ color: 'black', fontWeight: 'bold' }} aria-hidden="true"></span>
                                 <span className="sr-only">Previous</span>
                             </a>
-                            <a className="carousel-control-next" style={{color: 'black'}} href="#carouselExampleCaptions" role="button" data-slide="next">
+                            <a className="carousel-control-next" style={{ color: 'black' }} href="#carouselExampleCaptions" role="button" data-slide="next">
                                 <span className="fa fa-chevron-right" aria-hidden="true"></span>
                                 <span className="sr-only">Next</span>
                             </a>

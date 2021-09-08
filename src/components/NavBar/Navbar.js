@@ -16,7 +16,7 @@ const Navbar = (props) => {
         if (!props.user) {
             return (<Link className="nav-link" to="/login">Iniciar sesion</Link>);
         }
-        return (<Link className="nav-link" to="/login">{props.user.name}</Link>)
+        return (<Link className="nav-link" to="/">{props.user.name}</Link>)
     }
 
     const isAdmin = () => {
@@ -28,14 +28,13 @@ const Navbar = (props) => {
     }
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-white">
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ul className="navbar-nav mb-lg-0 ms-lg-4">
                     <li><Link className="nav-link" to='/'>Inicio</Link></li>
-                    <li><Link className="nav-link" to="/shop">Comprar</Link></li>
                     <li>{isAdmin()}</li>
                 </ul>
                 <ul className="ml-auto navbar-nav">

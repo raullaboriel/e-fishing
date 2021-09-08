@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/NavBar/Navbar';
 import Shop from './components/Shop/Shop';
 import AddProduct from './components/Product/AddProduct';
-import Home from './components/Home/Home';
 import Cart from './components/Cart/Cart';
 import style from '../src/styles/style.css'
 import axios from 'axios';
@@ -54,19 +53,19 @@ function App() {
     <Router>
       <Navbar user={user} setUser={setUser} cart={cart}/>
       <Switch>
-        <Route exact path='/' component={Home} />
+
+      <Route path='/' exact style={style} component=
+          {() =>
+            <Shop productsList={productsList} />
+          } />
 
         <Route path='/addProduct' component=
           {() =>
             <AddProduct productsList={productsList} setProductsList={setProductsList} />
           } />
 
-        <Route path='/shop' style={style} component=
-          {() =>
-            <Shop productsList={productsList} />
-          } />
         
-        <Route exact path='/productpreview' component={
+        <Route exact path='/product/:name/:id' component={
           () => <ProductPreview cart={cart} setCart={setCart} />
         } />
 
