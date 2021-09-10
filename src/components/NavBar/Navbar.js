@@ -11,7 +11,6 @@ const Navbar = (props) => {
         return amount;
     }
 
-
     const showLogin = () => {
         if (!props.user) {
             return (<Link className="nav-link" to="/login">Iniciar sesion</Link>);

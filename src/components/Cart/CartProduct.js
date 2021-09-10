@@ -8,7 +8,6 @@ const CartProduct = (props) => {
     const [getAmount, setAmount] = useState(parseInt(product.amount));
     const [showUpdate, setShowUpdate] = useState(false);
 
-
     useEffect(() => {
         setAmount(parseInt(props.product.amount));
     }, [props.product.amount])
@@ -76,7 +75,7 @@ const CartProduct = (props) => {
                         </div>
                     </div>
                     <div className="d-flex col-md-6 col-6 align-self-md-center justify-content-md-center">
-                        <a onClick={() => props.removeFromCart(props.product.id)} href="#." className="btn btn-light btn-round">Remove</a>
+                        <a onClick={() => props.removeFromCart(props.product.id)} href="#." className="btn btn-light btn-round">Quitar</a>
                     </div>
                 </div>
 

@@ -30,13 +30,13 @@ const ProductPreview = (props) => {
         if (index === 0) {
             return (
                 <div key={index} className="carousel-item active">
-                    <img alt='' className="d-block image-fluid  w-100" src={imageUri} data-holder-rendered="true"></img>
+                    <img alt='' className="d-block image-fluid w-100 img-big-wrap" src={imageUri} data-holder-rendered="true"></img>
                 </div>
             )
         } else {
             return (
                 <div key={index} className="carousel-item">
-                    <img alt='' className="d-block image-fluid  w-100" src={imageUri} data-holder-rendered="true"></img>
+                    <img alt='' className="d-block image-fluid w-100 img-big-wrap" src={imageUri} data-holder-rendered="true"></img>
                 </div>
             )
         }
@@ -54,7 +54,7 @@ const ProductPreview = (props) => {
                 console.log(e);
             }
         }
-        if (product.description.length > 400) {
+        if (product.description.length > 550) {
             setShowMore(true);
         }
         getProduct();
@@ -90,14 +90,13 @@ const ProductPreview = (props) => {
     }
 
     return (
-        <section className="py-5">
-            <div className=" px-4 px-lg-5 my-5">
+        <section>
+            <div className="px-4 px-lg-5 py-5">
                 <div className="row gx-4 gx-lg-5 align-items-center">
                     <div className="col-md-6">
-                        {/*<img className="card-img-top mb-5 mb-md-0" src={product.image.uris[0].uri} alt="..."></img> */}
                         <div id="carouselExampleCaptions" className="carousel slide" data-interval="false">
-                            <div className="carousel-inner">
-                                {product.image.uris.map((image, index) => carouselImage(image.uri, index))}
+                            <div className="carousel-inner p-5">
+                                {product.image.uris.map((uri, index) => carouselImage(uri, index))}
                             </div>
                             <a className="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
                                 <span className="fa fa-chevron-left" style={{ color: 'black', fontWeight: 'bold' }} aria-hidden="true"></span>
@@ -110,7 +109,7 @@ const ProductPreview = (props) => {
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <h1 className="display-5 fw-bolder font-weight-bold">{product.name}</h1>
+                        <h1 className="display-5 fw-bolder font-weight-bold h1">{product.name}</h1>
                         <div className="d-flex flex-row mb-3">
                             <div className="mb-1 bg-light font-weight-bold col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.weight} g</div>
                             <div className="mb-1 bg-light font-weight-bold col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.size} cm</div>
@@ -120,24 +119,24 @@ const ProductPreview = (props) => {
                             <span className="font-weight-bold h5">${product.price}</span>
                         </div>
 
+                        <div className="d-flex mb-3">
+                            <input className="form-control text-center me-3 mr-1" onChange={e => handleAmountChange(e)} disabled={product.stock <= 0} id="inputQuantity" type="num" value={amount} style={{ maxWidth: "3rem" }}></input>
+                            <button className="btn btn-primary flex-shrink-0" onClick={e => addToCart(e)} disabled={product.stock <= 0} type="button">
+                                <i className="bi-cart-fill me-1"></i>
+                                Agregar al carrito
+                            </button>
+                        </div>
+
                         {showMore ?
                             <div style={{ height: '245px', overflow: 'hidden' }}><p className="lead">{product.description}</p></div>
                             :
                             <div><p className="lead">{product.description}</p></div>
                         }
                         <a className="text-secondary" href="." onClick={e => onShowMore(e)} >
-                            {product.description.length > 400 && { ...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span> }}
+                            {product.description.length > 550 && { ...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span> }}
                         </a>
 
                         {product.stock <= 0 && <div className="pt-2"><span className="text-warning h6">No disponible</span></div>}
-
-                        <div className="d-flex mt-md-2">
-                            <input className="form-control text-center me-3 mr-1" onChange={e => handleAmountChange(e)} disabled={product.stock <= 0} id="inputQuantity" type="num" value={amount} style={{ maxWidth: "3rem" }}></input>
-                            <button className="btn btn-success flex-shrink-0" onClick={e => addToCart(e)} disabled={product.stock <= 0} type="button">
-                                <i className="bi-cart-fill me-1"></i>
-                                Add to cart
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

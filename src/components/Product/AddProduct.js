@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 const AddProduct = (props) => {
 
     const [showAlert, setShowAlert] = useState(false);
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState(null);
     const [data, setData] = useState({
         name: '',
         brand: '',
@@ -72,25 +72,28 @@ const AddProduct = (props) => {
                     stock: ''
                 })
             }
-            uploadImage(response.data);
+            for (let index = 0; index < images.length; index++) {
+                uploadImage(response.data, images[index]);
+            }
         } catch (e) {
             console.error(e);
         }
     }
 
-    const uploadImage = async (id) => {
+    const uploadImage = async (id, image) => {
         let data = new FormData();
         data.append('file', image);
         await axios.post(`https://localhost:5001/images/${id}`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
-            }
-        });
+            },
+            withCredentials: true
+        }).catch(e => {console.log(e)});
     }
 
-    const a = (e) => {
+    const getFiles = (e) => {
         e.preventDefault();
-        setImage(e.target.files[0]);
+        setImages(e.target.files);
     }
 
     return (
@@ -151,7 +154,7 @@ const AddProduct = (props) => {
                     <div>
                         <small><b><span>Selecciona una imagen</span></b></small>
                         <div className='d-flex flex-md-row flex-column mb-md-3'>
-                            <input type="file" className='flex-fill mb-md-0 mb-3' multiple={false} onChange={e => a(e)} name='image' accept='.jpeg, .png, .jpg, .imv' alt='Pick image' />
+                            <input type="file" className='flex-fill mb-md-0 mb-3' multiple={true} onChange={e => getFiles(e)} name='image' accept='.jpeg, .png, .jpg, .imv' alt='Pick image' />
                             <button type='submit' className='btn form-control btn-success mt-md-0 flex-fill col-md-8 col-12'>Agregar producto</button>
                         </div>
                     </div>

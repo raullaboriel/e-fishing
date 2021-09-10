@@ -65,7 +65,7 @@ function App() {
           } />
 
         
-        <Route exact path='/product/:name/:id' component={
+        <Route exact path='/products/:name/:id' component={
           () => <ProductPreview cart={cart} setCart={setCart} />
         } />
 
