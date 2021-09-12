@@ -13,7 +13,16 @@ const Navbar = (props) => {
 
     const showLogin = () => {
         if (!props.user) {
-            return (<Link className="nav-link" to="/login">Iniciar sesion</Link>);
+            return (
+                <ul className="navbar-nav">
+                    <li>
+                        <Link className="nav-link" to="/login">Iniciar sesion</Link>
+                    </li>
+                    <li>
+                        <Link className="nav-link" to='/signup'>Registrate</Link>
+                    </li>
+                </ul>
+            );
         }
         return (<Link className="nav-link" to="/">{props.user.name}</Link>)
     }
@@ -37,9 +46,7 @@ const Navbar = (props) => {
                     <li>{isAdmin()}</li>
                 </ul>
                 <ul className="ml-auto navbar-nav">
-                    <li>
-                        {showLogin()}
-                    </li>
+                    {showLogin()}
                     <li>
                         <Link to='/cart'>
                             <form className="d-flex ml-lg-3">

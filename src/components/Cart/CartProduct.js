@@ -27,9 +27,9 @@ const CartProduct = (props) => {
 
     const updateAmount = (e) => {
         e.preventDefault();
-        let currentCart = [...props.cart];
+        let currentCart = props.cart;
         currentCart[index].amount = parseInt(getAmount);
-        props.setCart(currentCart);
+        props.setCart([...currentCart]);
         setShowUpdate(false);
 
         if (getAmount <= 0) {
@@ -54,7 +54,7 @@ const CartProduct = (props) => {
                     <div className="d-flex flex-md-row flex-column p-lg-0 pl-1">
                         <div className="col-md-5 row">
                             <div className="card-img-top" style={{ maxWidth: '100%', height: '150px' }}>
-                                <img alt='Imagen del producto' className="align-self-start cart-product-img p-2 img-fluid rounded" src={image.uris[0].uri} />
+                                <img alt='Imagen del producto' className="align-self-start cart-product-img p-2 img-fluid rounded" src={image.uris[0]} />
                             </div>
                         </div>
                         <div className="col-md-7 row-sm align-self-center">

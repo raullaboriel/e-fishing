@@ -72,8 +72,10 @@ const AddProduct = (props) => {
                     stock: ''
                 })
             }
-            for (let index = 0; index < images.length; index++) {
-                uploadImage(response.data, images[index]);
+            if(images != null){
+                for (let index = 0; index < images.length; index++) {
+                    uploadImage(response.data, images[index]);
+                }
             }
         } catch (e) {
             console.error(e);
