@@ -58,43 +58,73 @@ function App() {
       console.log(ex);
     }
   };
-  if(user === undefined){
+  if (user === undefined) {
     return (<div></div>);
   }
+
+  const addToCart = (product, amount) => {
+    product.price = parseFloat(product.price);
+
+    let currentCart = cart;
+    const index = currentCart.findIndex(e => e.id === product.id);
+
+    if (index !== -1) {
+      currentCart[index].amount = parseInt(currentCart[index].amount) + parseInt(amount);
+      setCart([...currentCart]);
+    } else {
+      product.amount = parseInt(amount);
+      currentCart.push(product);
+      setCart([...currentCart]);
+    }
+  }
+
+
+  //This to are only used in CartProduct
+  const AddOneToCart = (id) => {
+    setCart(
+      cart.map(element => element.id === id ? {...element, amount: element.amount + 1} : element)
+    )
+  }
+
+  const RemoveOneToCart = (id) => {
+    let tmpCart = cart;
+    const index = tmpCart.findIndex(e => e.id === id);
+    console.log(index);
+    if(tmpCart[index].amount === 1){
+      return;
+    }else{
+      tmpCart[index].amount -= 1; 
+      setCart([...tmpCart]);
+    }
+  }  
 
   return (
     <Router>
       <Navbar user={user} setUser={setUser} cart={cart} />
       <Switch>
+        <Route path='/' exact style={style}>
+          <Shop productsList={productsList} />
+        </Route>
 
-        <Route path='/' exact style={style} component=
-          {() =>
-            <Shop productsList={productsList} />
-          } />
+        <Route path='/addProduct' >
+          <AddProduct productsList={productsList} setProductsList={setProductsList} />
+        </Route>
 
-        <Route path='/addProduct' component=
-          {() =>
-            <AddProduct productsList={productsList} setProductsList={setProductsList} />
-          } />
+        <Route path='/Cart'>
+          <Cart cart={cart} setCart={setCart} AddOneToCart={AddOneToCart} RemoveOneToCart={RemoveOneToCart}/>
+        </Route>
 
+        <Route path='/login'>
+          <Login user={user} setUser={setUser} login={login} correctCredentials={correctCredentials} />
+        </Route>
 
-        <Route exact path='/products/:name/:id' component={
-          () => <ProductPreview cart={cart} setCart={setCart} />
-        } />
+        <Route path='/signup' >
+          <SignUp />
+        </Route>
 
-        <Route path='/Cart' component={
-          () =>
-            <Cart cart={cart} setCart={setCart} />} />
-
-
-        <Route path='/login' component={
-          () =>
-            <Login user={user} setUser={setUser} login={login} correctCredentials={correctCredentials} />} />
-
-        <Route path='/signup' component={
-          () =>
-            <SignUp />} />
-
+        <Route path='/products/:name/:id' >
+          <ProductPreview addToCart={addToCart} />
+        </Route>
       </Switch>
     </Router>
   );

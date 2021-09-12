@@ -2,15 +2,12 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 
 const CartProduct = (props) => {
-    let product = props.product;
     const [image, setImage] = useState(null);
-    const index = props.cart.findIndex(item => item.id === product.id);
-    const [getAmount, setAmount] = useState(parseInt(product.amount));
-    const [showUpdate, setShowUpdate] = useState(false);
+    const [getAmount, setAmount] = useState(parseInt(props.product.amount));
 
     useEffect(() => {
         setAmount(parseInt(props.product.amount));
-    }, [props.product.amount])
+    }, [props.product.amount]);
 
     useEffect(() => {
         const chargeImage = async (id) => {
@@ -23,25 +20,6 @@ const CartProduct = (props) => {
         }
         chargeImage(props.product.id);
     }, [props.product.id]);
-
-
-    const updateAmount = (e) => {
-        e.preventDefault();
-        let currentCart = props.cart;
-        currentCart[index].amount = parseInt(getAmount);
-        props.setCart([...currentCart]);
-        setShowUpdate(false);
-
-        if (getAmount <= 0) {
-            props.removeFromCart(props.product.id);
-        }
-    }
-
-    const handleAmountChange = (e) => {
-        e.preventDefault();
-        setAmount(e.target.value);
-        setShowUpdate(true);
-    }
 
     if (image === null) {
         return (<div></div>);
@@ -59,23 +37,34 @@ const CartProduct = (props) => {
                         </div>
                         <div className="col-md-7 row-sm align-self-center">
                             <div>
-                                <span className="h6">{product.name}</span>
+                                <span className="h6">{props.product.name}</span>
                             </div>
                             <div>
-                                <span className="h6">${product.price}</span>
+                                <span className="h6">${props.product.price}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6 row pl-md-0 pl-3">
-                    <div className="col-md-6 col-6 align-self-md-center">
+                <div className="col-md-6 row pl-md-0 pl-3 justify-content-between">
+                    <div className="ml-lg-3 col-lg-4 col-md-6 col-6 align-self-md-center">
                         <div className="input-group input-spinner">
-                            {showUpdate ? <button className="btn btn-light" onClick={e => updateAmount(e)} type="button" id="button-minus"><i className="fa fa-check"></i></button> : null}
-                            <input type="number" name="amount" min={0} onChange={e => handleAmountChange(e)} value={getAmount} className="form-control text-center"></input>
+                            <div className="input-group-prepend bg-white">
+                                <button onClick={() => props.RemoveOneToCart(props.product.id)} name="minus" className="btn btn-white border" type="button" id="button-plus">
+                                    <i className="fa fa-minus text-secondary"></i>
+                                </button>
+                            </div>
+                            <input disabled type="text" value={getAmount} className="form-control text-center bg-white" name="amount" style={{ fontWeight: 'bold', color: '#111827', fontFamily: 'Roboto, sans-serif' }} min={1}></input>
+                            <div className="input-group-append">
+                                <button onClick={() => props.AddOneToCart(props.product.id)} name="plus"  className="btn btn-white border" type="button" id="button-minus">
+                                    <i className="fa fa-plus text-secondary"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div className="d-flex col-md-6 col-6 align-self-md-center justify-content-md-center">
-                        <a onClick={() => props.removeFromCart(props.product.id)} href="#." className="btn btn-light btn-round">Quitar</a>
+                    <div className="col-lg-4 col-md-6 col-6 align-self-md-center">
+                        <div>
+                            <a onClick={() => props.removeFromCart(props.product.id)} href="#." className="btn btn-light btn-round">Quitar</a>
+                        </div>
                     </div>
                 </div>
 

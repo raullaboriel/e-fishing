@@ -49,6 +49,7 @@ const ProductPreview = (props) => {
                 const image = await axios.get(`https://localhost:5001/images/${id}`);
                 const product = response.data;
                 product['image'] = image.data;
+                product['amount'] = 0;
                 setProduct(product);
             } catch (e) {
                 console.log(e);
@@ -59,26 +60,6 @@ const ProductPreview = (props) => {
         }
         getProduct();
     }, [id, product.description.length]);
-
-    const addToCart = (e) => {
-        e.preventDefault();
-        let currentProduct = product;
-        currentProduct['price'] = parseFloat(currentProduct.price);
-        setProduct(currentProduct);
-
-        let currentCart = [...props.cart];
-        const index = currentCart.findIndex(e => e.id === product.id);
-
-        if (index !== -1) {
-            currentCart[index].amount = parseInt(currentCart[index].amount) + parseInt(amount);
-            props.setCart(currentCart);
-        } else {
-            currentProduct['amount'] = parseInt(amount);
-            setProduct(currentProduct);
-            currentCart.push(product);
-            props.setCart(currentCart);
-        }
-    }
 
     if (product.name === '' || !product.image.uris) {
         return (<div></div>)
@@ -121,7 +102,7 @@ const ProductPreview = (props) => {
 
                         <div className="d-flex mb-3">
                             <input className="form-control text-center me-3 mr-1" onChange={e => handleAmountChange(e)} disabled={product.stock <= 0} id="inputQuantity" type="num" value={amount} style={{ maxWidth: "3rem" }}></input>
-                            <button className="btn btn-primary flex-shrink-0" onClick={e => addToCart(e)} disabled={product.stock <= 0} type="button">
+                            <button className="btn btn-primary flex-shrink-0" onClick={() => props.addToCart(product, amount)} disabled={product.stock <= 0} type="button">
                                 <i className="bi-cart-fill me-1"></i>
                                 Agregar al carrito
                             </button>

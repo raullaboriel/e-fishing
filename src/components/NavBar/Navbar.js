@@ -4,7 +4,6 @@ import {
 } from 'react-router-dom'
 
 const Navbar = (props) => {
-
     const showCartAmount = () => {
         let amount = 0;
         props.cart.forEach(product => { amount += parseInt(product.amount) });
@@ -50,10 +49,10 @@ const Navbar = (props) => {
                     <li>
                         <Link to='/cart'>
                             <form className="d-flex ml-lg-3">
-                                <button className="btn btn-outline-dark" type="submit">
+                                <button className="btn btn-outline-primary" type="submit">
                                     <i className="bi-cart-fill mr-1"></i>
                                     Carrito
-                                    <span className="badge bg-dark text-white ml-1 rounded-pill">{showCartAmount()}</span>
+                                    <span className="badge bg-primary text-white ml-1 rounded-pill">{showCartAmount()}</span>
                                 </button>
                             </form>
                         </Link>
