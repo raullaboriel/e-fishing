@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { Redirect } from 'react-router'
 
 const AddProduct = (props) => {
 
@@ -96,6 +97,11 @@ const AddProduct = (props) => {
     const getFiles = (e) => {
         e.preventDefault();
         setImages(e.target.files);
+    }
+
+
+    if (props.user === null || props.user.admin === false) {
+        return (<Redirect to='/'></Redirect>);
     }
 
     return (

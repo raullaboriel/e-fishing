@@ -8,29 +8,33 @@ const Product = (props) => {
 
     useEffect(() => {
         const chargeImage = async (id) => {
-            try{
+            try {
                 const response = await axios.get(`https://localhost:5001/images/${id}`);
                 setImage(response.data);
-            }catch(e){
+            } catch (e) {
                 console.log(e);
             }
         }
         chargeImage(props.product.id);
     }, [props.product.id])
 
-    if(image === null){
+    if (image === null) {
         return (<div></div>);
     }
-    
+
     return (
-        <div className="col-md-4 mb-4 pl-0 pr-0">
+        <div className="col-md-4 mb-4 pl-0 pr-0 rounded">
             <div className="card mb-1 h-100 w-100 border-0">
-                <div className="card-img-top" style={{width: '100%', height: '220px'}} focusable="false">
-                    <Link to={`/products/${props.product.name.replaceAll(' ', '-')}/${props.product.id}`}><img src={image.uris[0]} alt='not found' className="img-fluid" style={{width: '100%', height: '100%', padding: '10px'}}></img></Link>
-                    <title>{props.product.name}</title>
+                <div className="card-img-top text-center " style={{ width: '100%', height: '210px' }} focusable="false">
+                    <Link to={`/products/${props.product.name.replaceAll(' ', '-')}/${props.product.id}`}>
+                        <img src={image.uris[0]} alt='not found' className="img-fluid img-product" astyle={{ width: '100%', height: '100%', padding: '10px' }}></img>
+                    </Link>
+                    <title>
+                        {props.product.name}
+                    </title>
                 </div>
                 <div className="card-body">
-                    <div> 
+                    <div>
                         <span><b><Link id='name-link' to={`/products/${props.product.name.replaceAll(' ', '-')}/${props.product.id}`}>{props.product.name}</Link></b></span>
                         <p>US${props.product.price}</p>
                     </div>
@@ -42,7 +46,7 @@ const Product = (props) => {
                 </div>
             </div>
         </div>
-        
+
     )
 }
 

@@ -26,7 +26,7 @@ function App() {
     const checkIfSigned = async () => {
       await axios.post('https://localhost:5001/users/user', null, { withCredentials: true })
         .then(response => setUser(response.data))
-        .catch(e => setUser(null));
+        .catch(() => setUser(null));
     }
     checkIfSigned();
   }, []);
@@ -49,6 +49,11 @@ function App() {
       });
   }
 
+  const logout = async (e) => {
+    e.preventDefault();
+    await axios.post('https://localhost:5001/users/logout', null, { withCredentials: true }).then(() => setUser(null));
+  }
+
   const getProducts = async () => {
     try {
       const response = await axios.get('https://localhost:5001/products');
@@ -58,9 +63,6 @@ function App() {
       console.log(ex);
     }
   };
-  if (user === undefined) {
-    return (<div></div>);
-  }
 
   const addToCart = (product, amount) => {
     product.price = parseFloat(product.price);
@@ -78,40 +80,44 @@ function App() {
     }
   }
 
-
-  //This to are only used in CartProduct
+  //This function is only used in CartProduct
   const AddOneToCart = (id) => {
     setCart(
-      cart.map(element => element.id === id ? {...element, amount: element.amount + 1} : element)
+      cart.map(element => element.id === id ? { ...element, amount: element.amount + 1 } : element)
     )
   }
 
+  //This function is only used in CartProduct
   const RemoveOneToCart = (id) => {
     let tmpCart = cart;
     const index = tmpCart.findIndex(e => e.id === id);
-    console.log(index);
-    if(tmpCart[index].amount === 1){
+
+    if (tmpCart[index].amount === 1) {
       return;
-    }else{
-      tmpCart[index].amount -= 1; 
+    } else {
+      tmpCart[index].amount -= 1;
       setCart([...tmpCart]);
     }
-  }  
+  }
+
+  if (user === undefined) {
+    return (<div></div>);
+  }
 
   return (
     <Router>
-      <Navbar user={user} setUser={setUser} cart={cart} />
+      <Navbar user={user} setUser={setUser} cart={cart} logout={logout}/>
       <Switch>
         <Route path='/' exact style={style}>
           <Shop productsList={productsList} />
         </Route>
 
         <Route path='/addProduct' >
-          <AddProduct productsList={productsList} setProductsList={setProductsList} />
+          <AddProduct productsList={productsList} setProductsList={setProductsList} user={user}/>
         </Route>
 
         <Route path='/Cart'>
-          <Cart cart={cart} setCart={setCart} AddOneToCart={AddOneToCart} RemoveOneToCart={RemoveOneToCart}/>
+          <Cart cart={cart} setCart={setCart} AddOneToCart={AddOneToCart} RemoveOneToCart={RemoveOneToCart} />
         </Route>
 
         <Route path='/login'>

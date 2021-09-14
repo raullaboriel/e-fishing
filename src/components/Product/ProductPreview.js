@@ -30,13 +30,13 @@ const ProductPreview = (props) => {
         if (index === 0) {
             return (
                 <div key={index} className="carousel-item active">
-                    <img alt='' className="d-block image-fluid w-100 img-big-wrap" src={imageUri} data-holder-rendered="true"></img>
+                    <img alt='' className="img-product-preview" src={imageUri} data-holder-rendered="true"></img>
                 </div>
             )
         } else {
             return (
                 <div key={index} className="carousel-item">
-                    <img alt='' className="d-block image-fluid w-100 img-big-wrap" src={imageUri} data-holder-rendered="true"></img>
+                    <img alt='' className="img-product-preview" src={imageUri} data-holder-rendered="true"></img>
                 </div>
             )
         }
@@ -76,7 +76,7 @@ const ProductPreview = (props) => {
                 <div className="row gx-4 gx-lg-5 align-items-center">
                     <div className="col-md-6">
                         <div id="carouselExampleCaptions" className="carousel slide" data-interval="false">
-                            <div className="carousel-inner p-5">
+                            <div className="carousel-inner mb-lg-0 mb-md-0 mb-3 text-center">
                                 {product.image.uris.map((uri, index) => carouselImage(uri, index))}
                             </div>
                             <a className="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
@@ -89,17 +89,21 @@ const ProductPreview = (props) => {
                             </a>
                         </div>
                     </div>
-                    <div className="col-md-6">
-                        <h1 className="display-5 fw-bolder font-weight-bold h1">{product.name}</h1>
+                    <div style={{backgroundColor: 'whitesmoke'}} className="col-md-6 rounded-lg p-md-4">
+                        <h1 className="display-5 fw-bolder h1">{product.name}</h1>
                         <div className="d-flex flex-row mb-3">
-                            <div className="mb-1 bg-light font-weight-bold col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.weight} g</div>
-                            <div className="mb-1 bg-light font-weight-bold col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.size} cm</div>
+                            <div className="mb-1 bg-dark text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.weight} g</div>
+                            <div className="mb-1 bg-dark text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.size} cm</div>
                         </div>
                         <div className="fs-5 mb-3">
                             {/*<span className="text-decoration-line-through">$45.00</span>*/}
-                            <span className="font-weight-bold h5">${product.price}</span>
+                            <span className=" h5">${product.price}</span>
                         </div>
-
+                        {product.stock <= 0 &&
+                            <div className="pb-2">
+                                <span style={{fontSize: '18px'}} className="text-warning">No disponible</span>
+                            </div>
+                        }
                         <div className="d-flex mb-3">
                             <input className="form-control text-center me-3 mr-1" onChange={e => handleAmountChange(e)} disabled={product.stock <= 0} id="inputQuantity" type="num" value={amount} style={{ maxWidth: "3rem" }}></input>
                             <button className="btn btn-primary flex-shrink-0" onClick={() => props.addToCart(product, amount)} disabled={product.stock <= 0} type="button">
@@ -109,15 +113,13 @@ const ProductPreview = (props) => {
                         </div>
 
                         {showMore ?
-                            <div style={{ height: '245px', overflow: 'hidden' }}><p className="lead">{product.description}</p></div>
+                            <div style={{ height: '245px', overflow: 'hidden' }}><p style={{fontSize: '18px'}} className="lead">{product.description}</p></div>
                             :
-                            <div><p className="lead">{product.description}</p></div>
+                            <div><p style={{fontSize: '18px'}} className="lead">{product.description}</p></div>
                         }
                         <a className="text-secondary" href="." onClick={e => onShowMore(e)} >
                             {product.description.length > 550 && { ...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span> }}
                         </a>
-
-                        {product.stock <= 0 && <div className="pt-2"><span className="text-warning h6">No disponible</span></div>}
                     </div>
                 </div>
             </div>

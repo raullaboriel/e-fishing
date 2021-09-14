@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-    Link
-} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Navbar = (props) => {
     const showCartAmount = () => {
@@ -36,7 +34,7 @@ const Navbar = (props) => {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white">
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button className="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -46,13 +44,14 @@ const Navbar = (props) => {
                 </ul>
                 <ul className="ml-auto navbar-nav">
                     {showLogin()}
+                    {props.user !== null ? <li><Link className='nav-link' to='/' onClick={(e) => props.logout(e)}>Cerrar sesión</Link></li> : null}
                     <li>
                         <Link to='/cart'>
                             <form className="d-flex ml-lg-3">
-                                <button className="btn btn-outline-primary" type="submit">
+                                <button className="btn btn-primary" type="submit">
                                     <i className="bi-cart-fill mr-1"></i>
                                     Carrito
-                                    <span className="badge bg-primary text-white ml-1 rounded-pill">{showCartAmount()}</span>
+                                    <span style={{fontFamily: 'sans-serif', fontSize: '15px'}} className="badge bg-white text-primary font-weight-bold ml-1 rounded-pill">{showCartAmount()}</span>
                                 </button>
                             </form>
                         </Link>

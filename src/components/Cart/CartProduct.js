@@ -30,12 +30,12 @@ const CartProduct = (props) => {
             <div className="d-flex flex-md-row flex-column">
                 <div className="col-lg-6 pl-0 pr-1 col-md-7 col-12">
                     <div className="d-flex flex-md-row flex-column p-lg-0 pl-1">
-                        <div className="col-md-5 row">
-                            <div className="card-img-top" style={{ maxWidth: '100%', height: '150px' }}>
+                        <div className="col-md-6 row">
+                            <div className="card-img-top text-center" style={{ maxWidth: '100%', height: '150px' }}>
                                 <img alt='Imagen del producto' className="align-self-start cart-product-img p-2 img-fluid rounded" src={image.uris[0]} />
                             </div>
                         </div>
-                        <div className="col-md-7 row-sm align-self-center">
+                        <div className="col-md-6 row-sm align-self-center">
                             <div>
                                 <span className="h6">{props.product.name}</span>
                             </div>
@@ -55,7 +55,7 @@ const CartProduct = (props) => {
                             </div>
                             <input disabled type="text" value={getAmount} className="form-control text-center bg-white" name="amount" style={{ fontWeight: 'bold', color: '#111827', fontFamily: 'Roboto, sans-serif' }} min={1}></input>
                             <div className="input-group-append">
-                                <button onClick={() => props.AddOneToCart(props.product.id)} name="plus"  className="btn btn-white border" type="button" id="button-minus">
+                                <button onClick={() => props.AddOneToCart(props.product.id)} name="plus" className="btn btn-white border" type="button" id="button-minus">
                                     <i className="fa fa-plus text-secondary"></i>
                                 </button>
                             </div>
