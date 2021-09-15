@@ -14,13 +14,15 @@ import {
 } from 'react-router-dom'
 import SignUp from './components/User/SignUp';
 import ls from 'local-storage'
+import { Redirect } from 'react-router';
 
 function App() {
-
   const [correctCredentials, setCorrectCredentials] = useState(true);
   const [user, setUser] = useState(undefined);
   const [productsList, setProductsList] = useState(ls.get("efishing-cart") ? ls.get("efishing-cart") : []);
   const [cart, setCart] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [activeCategory, setActiveCategory] = useState('Todo');
 
   useEffect(() => {
     const checkIfSigned = async () => {
@@ -33,6 +35,10 @@ function App() {
 
   useEffect(() => {
     getProducts();
+  }, []);
+
+  useEffect(() => {
+    getCategories();
   }, []);
 
   const login = async (e, credentials) => {
@@ -49,6 +55,22 @@ function App() {
       });
   }
 
+  const handleActiveCategoryChange = async (category) => {
+    setActiveCategory(category);
+    if(category === 'Todo'){
+      getProducts();
+    }else{
+      try {
+        const response = await axios.get(`https://localhost:5001/products/by?category=${category}`);
+        const products = response.data;
+        setProductsList(products);
+      } catch (ex) {
+        console.log(ex);
+      }
+    }
+    return (<Redirect to={`/${category}`}></Redirect>);
+  }
+
   const logout = async (e) => {
     e.preventDefault();
     await axios.post('https://localhost:5001/users/logout', null, { withCredentials: true }).then(() => setUser(null));
@@ -62,7 +84,17 @@ function App() {
     } catch (ex) {
       console.log(ex);
     }
-  };
+  }
+
+  const getCategories = async () => {
+    try {
+      const response = await axios.get('https://localhost:5001/products/categories');
+      const categories = response.data.categories;
+      setCategories(categories);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   const addToCart = (product, amount) => {
     product.price = parseFloat(product.price);
@@ -106,17 +138,18 @@ function App() {
 
   return (
     <Router>
-      <Navbar user={user} setUser={setUser} cart={cart} logout={logout}/>
+      <Navbar user={user} setUser={setUser} cart={cart} logout={logout} />
       <Switch>
-        <Route path='/' exact style={style}>
-          <Shop productsList={productsList} />
+
+        <Route path={['/', '/categories/:category/']} exact style={style}>
+          <Shop productsList={productsList} categories={categories} handleActiveCategoryChange={handleActiveCategoryChange} activeCategory={activeCategory}/>
         </Route>
 
         <Route path='/addProduct' >
-          <AddProduct productsList={productsList} setProductsList={setProductsList} user={user}/>
+          <AddProduct productsList={productsList} setProductsList={setProductsList} user={user} />
         </Route>
 
-        <Route path='/Cart'>
+        <Route path='/cart'>
           <Cart cart={cart} setCart={setCart} AddOneToCart={AddOneToCart} RemoveOneToCart={RemoveOneToCart} />
         </Route>
 

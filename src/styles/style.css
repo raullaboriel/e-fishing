@@ -43,6 +43,18 @@ body {
   }
 }
 
+@media (max-width: 990px) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
+
+@media (min-width: 991px) {
+  .hidden-lg {
+    display: none !important;
+  }
+}
+
 /*Login*/
 
 #name-link {

@@ -1,12 +1,18 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-const SubNavbar = () => {
+const SubNavbar = (props) => {
+    if (props.categories === []) {
+        return <div></div>
+    }
+
     return (
         <div className="nav-scroller bg-white border-bottom">
             <nav className="nav nav-underline">
-                <a className="nav-link active" href="#Lures">Señuelos</a>
-                <a className="nav-link" href="#Reels">Carretes</a>
-                <a className="nav-link" href="#Rods">Cañas de pescar</a>
+                <Link style={{ color: 'black' }} to='/' onClick={() => props.handleActiveCategoryChange('Todo')} className="nav-link">TODO</Link>
+                {props.categories.map((element, index) =>
+                    <Link style={{ color: 'black' }} to={`/categories/${element}`} onClick={() => props.handleActiveCategoryChange(element)} key={index} className="nav-link">{element.toUpperCase()}</Link>
+                )}
             </nav>
         </div>
     )
