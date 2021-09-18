@@ -29,13 +29,13 @@ const ProductPreview = (props) => {
     const carouselImage = (imageUri, index) => {
         if (index === 0) {
             return (
-                <div key={index} className="carousel-item active">
+                <div key={index} className="carousel-item active product-img-container">
                     <img alt='' className="img-product-preview" src={imageUri} data-holder-rendered="true"></img>
                 </div>
             )
         } else {
             return (
-                <div key={index} className="carousel-item">
+                <div key={index} className="carousel-item product-img-container">
                     <img alt='' className="img-product-preview" src={imageUri} data-holder-rendered="true"></img>
                 </div>
             )

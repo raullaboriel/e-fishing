@@ -19,8 +19,8 @@ import { Redirect } from 'react-router';
 function App() {
   const [correctCredentials, setCorrectCredentials] = useState(true);
   const [user, setUser] = useState(undefined);
-  const [productsList, setProductsList] = useState(ls.get("efishing-cart") ? ls.get("efishing-cart") : []);
-  const [cart, setCart] = useState([]);
+  const [productsList, setProductsList] = useState([]);
+  const [cart, setCart] = useState(ls.get("efishing-cart") ? ls.get("efishing-cart") : []);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('Todo');
 
@@ -41,6 +41,10 @@ function App() {
     getCategories();
   }, []);
 
+  useEffect(() => {
+    ls.set("efishing-cart", cart);
+  }, [cart])
+
   const login = async (e, credentials) => {
     e.preventDefault();
     await axios.post('https://localhost:5001/users/login', credentials, { withCredentials: true })
@@ -57,9 +61,9 @@ function App() {
 
   const handleActiveCategoryChange = async (category) => {
     setActiveCategory(category);
-    if(category === 'Todo'){
+    if (category === 'Todo') {
       getProducts();
-    }else{
+    } else {
       try {
         const response = await axios.get(`https://localhost:5001/products/by?category=${category}`);
         const products = response.data;
@@ -112,14 +116,12 @@ function App() {
     }
   }
 
-  //This function is only used in CartProduct
   const AddOneToCart = (id) => {
     setCart(
       cart.map(element => element.id === id ? { ...element, amount: element.amount + 1 } : element)
     )
   }
 
-  //This function is only used in CartProduct
   const RemoveOneToCart = (id) => {
     let tmpCart = cart;
     const index = tmpCart.findIndex(e => e.id === id);
@@ -142,7 +144,7 @@ function App() {
       <Switch>
 
         <Route path={['/', '/categories/:category/']} exact style={style}>
-          <Shop productsList={productsList} categories={categories} handleActiveCategoryChange={handleActiveCategoryChange} activeCategory={activeCategory}/>
+          <Shop addToCart={addToCart} productsList={productsList} categories={categories} handleActiveCategoryChange={handleActiveCategoryChange} activeCategory={activeCategory} />
         </Route>
 
         <Route path='/addProduct' >
