@@ -1,11 +1,9 @@
-/* .cart-product {
-    width: 200px;
-    height: 130px;
-} */
 
-body {
-  font-family: 'Inter', sans-serif;
-}
+/*
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+*/
 
 .cart-product-img {
   width: auto;
@@ -20,6 +18,9 @@ body {
   pointer-events: none;
 }
 
+a:hover{
+  text-decoration: none;
+}
 
 .card:hover {
   box-shadow: 0 0 5px 0.01px;
@@ -193,4 +194,21 @@ nav > a {
   width: auto;
   display: inline-block;
   cursor: zoom-in;
+}
+
+/*Cart icon*/
+#ex3 .fa-stack[data-count]:after {
+  position: absolute;
+  right: -35%;
+  top: -25%;
+  content: attr(data-count);
+  font-size: 75%;
+  padding: .5em;
+  border-radius: 50%;
+  line-height: .9em;
+  color: white;
+  background: rgba(255, 0, 0, 0.85);
+  text-align: center;
+  min-width: 1em;
+  font-weight: bold;
 }

@@ -15,9 +15,6 @@ const Navbar = (props) => {
                     <li>
                         <Link className="nav-link" to="/login">Iniciar sesion</Link>
                     </li>
-                    <li>
-                        <Link className="nav-link" to='/signup'>Registrate</Link>
-                    </li>
                 </ul>
             );
         }
@@ -33,19 +30,17 @@ const Navbar = (props) => {
     }
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-white">
+        <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <button className="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
-            <Link className="hidden-lg" to='/cart'>
-                <form className="d-flex ml-lg-3">
-                    <button className="btn btn-primary" type="submit">
-                        <i className="bi-cart-fill mr-1"></i>
-                        Carrito
-                        <span style={{ fontFamily: 'sans-serif', fontSize: '15px' }} className="badge bg-white text-primary font-weight-bold ml-1 rounded-pill">{showCartAmount()}</span>
-                    </button>
-                </form>
-            </Link>
+            <li id="ex3" className='hidden-lg nav-link'>
+                    <Link to='/cart'>
+                        <span class="p1 fa-stack fa-1x has-badge" data-count={showCartAmount()}>
+                            <i class="text-dark p3 fa fa-shopping-cart fa-stack-2x fa-inverse" data-count="5"></i>
+                        </span>
+                    </Link>
+                </li>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ul className="navbar-nav mb-lg-0 ms-lg-4">
                     <li><Link className="nav-link" to='/'>Inicio</Link></li>
@@ -54,7 +49,7 @@ const Navbar = (props) => {
                 <ul className="ml-auto navbar-nav">
                     {showLogin()}
                     {props.user !== null ? <li><Link className='nav-link' to='/' onClick={(e) => props.logout(e)}>Cerrar sesión</Link></li> : null}
-                    <li className='hidden-sm'>
+{/*                     <li className='hidden-sm'>
                         <Link to='/cart'>
                             <form className="d-flex ml-lg-3">
                                 <button className="btn btn-primary" type="submit">
@@ -64,8 +59,15 @@ const Navbar = (props) => {
                                 </button>
                             </form>
                         </Link>
-                    </li>
+                    </li> */}
                 </ul>
+                <li id="ex3" className='hidden-sm nav-link'>
+                    <Link to='/cart'>
+                        <span class="p1 fa-stack fa-1x has-badge" data-count={showCartAmount()}>
+                            <i class="text-dark p3 fa fa-shopping-cart fa-stack-2x fa-inverse" data-count="5"></i>
+                        </span>
+                    </Link>
+                </li>
             </div>
         </nav>
     )

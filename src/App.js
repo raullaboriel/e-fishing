@@ -7,14 +7,14 @@ import style from '../src/styles/style.css'
 import axios from 'axios';
 import Login from './components/User/Login';
 import ProductPreview from './components/Product/ProductPreview'
+import SignUp from './components/User/SignUp';
+import ls from 'local-storage'
+import { Redirect } from 'react-router';
 import {
   Route,
   BrowserRouter as Router,
   Switch
 } from 'react-router-dom'
-import SignUp from './components/User/SignUp';
-import ls from 'local-storage'
-import { Redirect } from 'react-router';
 
 function App() {
   const [correctCredentials, setCorrectCredentials] = useState(true);
@@ -45,13 +45,21 @@ function App() {
     ls.set("efishing-cart", cart);
   }, [cart])
 
+  const getCart = async () => {
+    await axios.post('https://localhost:5001/CartProducts', null, {withCredentials: true})
+    .then(response => {
+      setCart(response.data);
+    })
+  }
+
   const login = async (e, credentials) => {
     e.preventDefault();
     await axios.post('https://localhost:5001/users/login', credentials, { withCredentials: true })
       .then(response => {
         if (response.status === 200) {
           setUser(response.data);
-          return true;
+          setCorrectCredentials(true);
+          getCart();
         }
       })
       .catch(error => {
@@ -148,7 +156,7 @@ function App() {
         </Route>
 
         <Route path='/addProduct' >
-          <AddProduct productsList={productsList} setProductsList={setProductsList} user={user} />
+          <AddProduct categories={categories} productsList={productsList} setProductsList={setProductsList} user={user} />
         </Route>
 
         <Route path='/cart'>

@@ -46,16 +46,16 @@ const CartProduct = (props) => {
                     </div>
                 </div>
                 <div className="col-md-6 row pl-md-0 pl-3 justify-content-between">
-                    <div className="ml-lg-3 col-lg-4 col-md-6 col-6 align-self-md-center">
+                    <div className="ml-lg-3 col-lg-5 col-md-6 col-6 align-self-md-center">
                         <div className="input-group input-spinner">
                             <div className="input-group-prepend bg-white">
-                                <button onClick={() => props.RemoveOneToCart(props.product.id)} name="minus" className="btn btn-white border" type="button" id="button-plus">
+                                <button title='Quitar uno' onClick={() => props.RemoveOneToCart(props.product.id)} name="minus" className="btn btn-white border" type="button" id="button-plus">
                                     <i className="fa fa-minus text-secondary"></i>
                                 </button>
                             </div>
                             <input disabled type="text" value={getAmount} className="form-control text-center bg-white" name="amount" style={{ fontWeight: 'bold', color: '#111827', fontFamily: 'Roboto, sans-serif' }} min={1}></input>
                             <div className="input-group-append">
-                                <button onClick={() => props.AddOneToCart(props.product.id)} name="plus" className="btn btn-white border" type="button" id="button-minus">
+                                <button  title='Agregar uno más' onClick={() => props.AddOneToCart(props.product.id)} name="plus" className="btn btn-white border" type="button" id="button-minus">
                                     <i className="fa fa-plus text-secondary"></i>
                                 </button>
                             </div>
@@ -63,7 +63,7 @@ const CartProduct = (props) => {
                     </div>
                     <div className="col-lg-4 col-md-6 col-6 align-self-md-center">
                         <div>
-                            <a onClick={() => props.removeFromCart(props.product.id)} href="#." className="btn btn-light btn-round">Quitar</a>
+                            <a title='Quitar del carrito' onClick={() => props.removeFromCart(props.product.id)} href="#." className="btn btn-light btn-round"><i className="fa fa-times" aria-hidden="true"></i> </a>
                         </div>
                     </div>
                 </div>

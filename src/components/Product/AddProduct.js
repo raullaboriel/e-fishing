@@ -17,7 +17,7 @@ const AddProduct = (props) => {
         weight: '',
         stock: '',
     });
-    
+
 
     useEffect(() => {
         onShowAlert();
@@ -45,6 +45,7 @@ const AddProduct = (props) => {
             ...data,
             [e.target.name]: e.target.value
         })
+        console.log(data);
     }
 
     const addProduct = async (e) => {
@@ -55,7 +56,7 @@ const AddProduct = (props) => {
             product.weight = parseFloat(product.weight);
             product.size = parseFloat(product.size);
             product.stock = parseInt(product.stock);
-            
+
             setData(product);
 
             const response = await axios.post('https://localhost:5001/products', data, { withCredentials: true });
@@ -73,7 +74,7 @@ const AddProduct = (props) => {
                     stock: ''
                 })
             }
-            if(images != null){
+            if (images != null) {
                 for (let index = 0; index < images.length; index++) {
                     uploadImage(response.data, images[index]);
                 }
@@ -91,7 +92,7 @@ const AddProduct = (props) => {
                 'Content-Type': 'multipart/form-data'
             },
             withCredentials: true
-        }).catch(e => {console.log(e)});
+        }).catch(e => { console.log(e) });
     }
 
     const getFiles = (e) => {
@@ -132,12 +133,24 @@ const AddProduct = (props) => {
                         </div>
                     </div>
 
-                    <div className='d-flex flex-md-row flex-column mb-md-3'>
-                        <div className='flex-fill mr-md-2'>
+                    <div className='d-flex flex-lg-row flex-md-row flex-column mb-md-3'>
+                        <div className="flex-fill col pl-0 mr-md-2">
                             <small><b><span>Categoria</span></b></small>
-                            <input required onChange={e => handleDataChange(e)} value={data.category} name='category' className='form-control mb-md-0 mb-2' type='text' placeholder='Escriba la categoria' />
+                            <div className="row align-items-center">
+                                <div className='col mr-md-1'>
+                                    <select onChange={e => handleDataChange(e)} className="custom-select" id="inputGroupSelect01">
+                                        {props.categories.map((category, index) => <option value={category}>{category}</option>)}
+                                    </select>
+                                </div>
+                                <div className="col">
+                                    <button type="button" onClick={() => console.log('sad')} className="btn btn-link row align-items-center">
+                                        <i className="text-primary mr-2 fa fa-plus" aria-hidden="true"></i>
+                                        <span>Agregar categoria</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div className='flex-fill'>
+                        <div className='col flex-fill p-0'>
                             <small><b><span>Tamaño</span></b></small>
                             <input required onChange={e => handleDataChange(e)} value={data.size} name='size' className='form-control mb-md-0 mb-2' type='number' step=".001" placeholder='Escriba el tamaño' />
                         </div>

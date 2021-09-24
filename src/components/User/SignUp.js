@@ -88,16 +88,21 @@ const SignUp = (props) => {
                         <input required onChange={e => handleInputChange(e)} type="password" className="form-control" name="confirmPassword" placeholder="Confirmar contraseña"></input>
                     </div>
                 </div>
+                
                 {
                     !isValidPass &&
-                    <small id="e" className="form-text text-danger">Las contraseñas no inciden</small>
+                    <div className=" pr-lg-3 pl-lg-3">
+                        <small id="e" className="form-text text-danger">Las contraseñas no inciden</small>
+                    </div>
                 }
                 {
                     (((data.password.length >= 1 && data.password.length < 8) || (data.confirmPassword.length >= 1 && data.confirmPassword.length < 8)) && isValidPass) &&
-                    <small id="e" className="form-text text-danger">La contraseña es muy corta</small> 
+                    <div className=" pr-lg-3 pl-lg-3">
+                        <small id="e" className="form-text text-danger">La contraseña es muy corta</small> 
+                    </div>
                 }
                 <div className="mt-2 pr-lg-3 pl-lg-3">
-                    <button type="submit" className="btn btn-lg btn-success btn-block ">Registrarse</button>
+                    <button type="submit" className="btn btn-lg btn-primary btn-block ">Crear cuenta</button>
                 </div>
             </form>
         </div>
