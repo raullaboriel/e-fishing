@@ -87,7 +87,6 @@ html, #login-form {
   max-width: 550px;
   padding: 50px;
   margin: auto;
-  background-color:whitesmoke;
 }
 .form-signin .checkbox {
   font-weight: 400;
@@ -102,15 +101,7 @@ html, #login-form {
 .form-signin .form-control:focus {
   z-index: 2;
 }
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
+
 
 nav > a {
   color: grey;

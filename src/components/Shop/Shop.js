@@ -19,7 +19,7 @@ const Shop = (props) => {
             <Link style={{ color: 'black' }} to={`/categories/${category}`} onClick={() => props.handleActiveCategoryChange(category)}>
                 <div className="row mb-1">
                     <div className="col-1">
-                        {category === props.activeCategory && <i class="fa fa-check text-success" aria-hidden="true"></i>}
+                        {category === props.activeCategory && <i className="fa fa-check text-success" aria-hidden="true"></i>}
                     </div>
                     <div className="col-1">
                         <span className="text-dark" style={{ fontSize: '15px' }}>{category.toUpperCase()}</span>
@@ -47,7 +47,7 @@ const Shop = (props) => {
                             <Link style={{ color: 'black' }} to='/' onClick={() => props.handleActiveCategoryChange('Todo')}>
                                 <div className="row mb-1">
                                     <div className="col-1">
-                                        {'Todo' === props.activeCategory && <i class="fa fa-check text-success" aria-hidden="true"></i>}
+                                        {'Todo' === props.activeCategory && <i className="fa fa-check text-success" aria-hidden="true"></i>}
                                     </div>
                                     <div className="col-1">
                                         <span className="text-dark" style={{ fontSize: '15px' }}>{'Todo'.toUpperCase()}</span>
@@ -58,12 +58,9 @@ const Shop = (props) => {
                             {props.categories.map((element, index) => <div key={index}>{category(element)}</div>)}
                         </div>
                     </div>
-                    <div className="col">
-                        <div className="row col-sm gx-4 gx-lg-5 row-cols-md-3 row-cols-xl-9">
+                        <div className="row col-sm row-cols-1 row-cols-md-3 row-cols-xl-9">
                             {props.productsList.map((element, index) => <Product key={index} addToCart={props.addToCart} product={element} />)}
                         </div>
-                    </div>
-
                 </div>
             </div>
             {/*

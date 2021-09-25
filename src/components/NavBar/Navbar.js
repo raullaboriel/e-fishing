@@ -13,12 +13,23 @@ const Navbar = (props) => {
             return (
                 <ul className="navbar-nav">
                     <li>
-                        <Link className="nav-link" to="/login">Iniciar sesion</Link>
+                        <Link className="nav-link" to="/login">Iniciar sesion<i className="ml-2 fa fa-user" aria-hidden="true"></i></Link>
                     </li>
                 </ul>
             );
         }
-        return (<Link className="nav-link" to="/">{props.user.name}</Link>)
+        return (
+            <div className="btn-group">
+                <Link to='' className="btn btn-transparent">{props.user.name}</Link>
+                <Link to='' type="button" className="btn btn-transparent dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span className="sr-only">Toggle Dropdown</span>
+                </Link>
+                <div className="dropdown-menu">
+                    <Link to='' className="dropdown-item" >Mi cuenta</Link>
+                    <div className="dropdown-divider"></div>
+                    <Link to='' onClick={(e) => props.logout(e)} className="dropdown-item" >Cerrar sesión<i className="ml-2 fa fa-sign-out" aria-hidden="true"></i></Link>
+                </div>
+            </div>)
     }
 
     const isAdmin = () => {
@@ -35,12 +46,12 @@ const Navbar = (props) => {
                 <span className="navbar-toggler-icon"></span>
             </button>
             <li id="ex3" className='hidden-lg nav-link'>
-                    <Link to='/cart'>
-                        <span class="p1 fa-stack fa-1x has-badge" data-count={showCartAmount()}>
-                            <i class="text-dark p3 fa fa-shopping-cart fa-stack-2x fa-inverse" data-count="5"></i>
-                        </span>
-                    </Link>
-                </li>
+                <Link to='/cart'>
+                    <span className="p1 fa-stack fa-1x has-badge" data-count={showCartAmount()}>
+                        <i className="text-dark p3 fa fa-shopping-cart fa-stack-2x fa-inverse" data-count="5"></i>
+                    </span>
+                </Link>
+            </li>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ul className="navbar-nav mb-lg-0 ms-lg-4">
                     <li><Link className="nav-link" to='/'>Inicio</Link></li>
@@ -48,8 +59,7 @@ const Navbar = (props) => {
                 </ul>
                 <ul className="ml-auto navbar-nav">
                     {showLogin()}
-                    {props.user !== null ? <li><Link className='nav-link' to='/' onClick={(e) => props.logout(e)}>Cerrar sesión</Link></li> : null}
-{/*                     <li className='hidden-sm'>
+                    {/*                     <li className='hidden-sm'>
                         <Link to='/cart'>
                             <form className="d-flex ml-lg-3">
                                 <button className="btn btn-primary" type="submit">
@@ -63,8 +73,8 @@ const Navbar = (props) => {
                 </ul>
                 <li id="ex3" className='hidden-sm nav-link'>
                     <Link to='/cart'>
-                        <span class="p1 fa-stack fa-1x has-badge" data-count={showCartAmount()}>
-                            <i class="text-dark p3 fa fa-shopping-cart fa-stack-2x fa-inverse" data-count="5"></i>
+                        <span className="p1 fa-stack fa-1x has-badge" data-count={showCartAmount()}>
+                            <i className="text-dark p3 fa fa-shopping-cart fa-stack-2x fa-inverse" data-count="5"></i>
                         </span>
                     </Link>
                 </li>

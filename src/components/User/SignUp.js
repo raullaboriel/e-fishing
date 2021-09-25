@@ -65,46 +65,52 @@ const SignUp = (props) => {
     }
 
     return (
-        <div className="d-flex mt-5 justify-content-center">
-            <form onSubmit={e => singUp(e)} className="col-sm-12 col-md-7 col-lg-7 shadow-sm p-lg-5 p-3 m-lg-0 m-1" style={{ backgroundColor: 'whitesmoke' }}>
-                <h1 className="pr-lg-3 pl-lg-3">Registrarse</h1>
-                <div className="d-flex flex-row pr-lg-3 pl-lg-3">
-                    <div className="flex-fill mr-2">
-                        <input required onChange={e => handleInputChange(e)} type="text" className="form-control" name="name" placeholder="Nombre"></input>
+        <div className="container mt-5">
+            <h1>Crear cuenta</h1>
+            <div className="d-flex mt-5 justify-content-center">
+                <form onSubmit={e => singUp(e)} className="col-sm-12 col-md-7 col-lg-7 shadow-sm p-lg-5 p-4  m-1 border rounded">
+                    <div className="d-flex flex-row">
+                        <div className="flex-fill mr-1">
+                            <input required onChange={e => handleInputChange(e)} type="text" className="form-control" name="name" placeholder="Nombre"></input>
+                        </div>
+                        <div className="flex-fill">
+                            <input required onChange={e => handleInputChange(e)} type="text" className="form-control" name="lastname" placeholder="Apellido"></input>
+                        </div>
                     </div>
-                    <div className="flex-fill">
-                        <input required onChange={e => handleInputChange(e)} type="text" className="form-control" name="lastname" placeholder="Apellido"></input>
+                    <div className="mt-1 ">
+                        <input required onChange={e => handleInputChange(e)} type="email" className="form-control" name="email" placeholder="Correo electrónico"></input>
+                        {!isValidEmail && <small id="c" className="form-text text-danger">Correo electrónico no disponible</small>}
                     </div>
-                </div>
-                <div className="mt-1 pr-lg-3 pl-lg-3">
-                    <input required onChange={e => handleInputChange(e)} type="email" className="form-control" name="email" placeholder="Correo electrónico"></input>
-                    {!isValidEmail && <small id="c" className="form-text text-danger">Correo electrónico no disponible</small>}
-                </div>
-                <div className="d-flex flex-row mt-1 pr-lg-3 pl-lg-3">
-                    <div className="flex-fill mr-2">
-                        <input required onChange={e => handleInputChange(e)} type="password" className="form-control" name="password" placeholder="Contraseña"></input>
+                    <div className="d-flex flex-row mt-1 ">
+                        <div className="flex-fill mr-1">
+                            <input required onChange={e => handleInputChange(e)} type="password" className="form-control" name="password" placeholder="Contraseña"></input>
+                        </div>
+                        <div className="flex-fill">
+                            <input required onChange={e => handleInputChange(e)} type="password" className="form-control" name="confirmPassword" placeholder="Confirmar contraseña"></input>
+                        </div>
                     </div>
-                    <div className="flex-fill">
-                        <input required onChange={e => handleInputChange(e)} type="password" className="form-control" name="confirmPassword" placeholder="Confirmar contraseña"></input>
+
+                    {
+                        !isValidPass &&
+                        <div className=" ">
+                            <small id="e" className="form-text text-danger">Las contraseñas no inciden</small>
+                        </div>
+                    }
+                    {
+                        (((data.password.length >= 1 && data.password.length < 8) || (data.confirmPassword.length >= 1 && data.confirmPassword.length < 8)) && isValidPass) &&
+                        <div className=" ">
+                            <small id="e" className="form-text text-danger">La contraseña es muy corta</small>
+                        </div>
+                    }
+                    <div className="mt-2 ">
+                        <button type="submit" className="btn btn-lg rounded-0 btn-primary btn-block ">Crear cuenta</button>
                     </div>
-                </div>
-                
-                {
-                    !isValidPass &&
-                    <div className=" pr-lg-3 pl-lg-3">
-                        <small id="e" className="form-text text-danger">Las contraseñas no inciden</small>
+                    <hr/>
+                    <div className="text-center">
+                        <span>¿Ya tienes cuenta? <Link to='/login'>Inicia sesión</Link></span>
                     </div>
-                }
-                {
-                    (((data.password.length >= 1 && data.password.length < 8) || (data.confirmPassword.length >= 1 && data.confirmPassword.length < 8)) && isValidPass) &&
-                    <div className=" pr-lg-3 pl-lg-3">
-                        <small id="e" className="form-text text-danger">La contraseña es muy corta</small> 
-                    </div>
-                }
-                <div className="mt-2 pr-lg-3 pl-lg-3">
-                    <button type="submit" className="btn btn-lg btn-primary btn-block ">Crear cuenta</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     );
 }

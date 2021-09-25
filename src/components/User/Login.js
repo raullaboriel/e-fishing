@@ -24,22 +24,23 @@ const Login = (props) => {
     }
 
     return (
-        <div id="login-form" className="text-center m-3">
-            <form onSubmit={e => { props.login(e, data) }}
-                className="form-signin shadow-sm rounded mt-md-4">
-                <h1 className="h3 mb-3 font-weight-normal">Iniciar sesión</h1>
-                <label htmlFor="inputEmail" className="sr-only">Correo electrónico</label>
-                <input type="email" onChange={e => handleInputChange(e)} id="inputEmail" name="email" className="form-control" placeholder="Correo electrónico" required="" autoFocus=""></input>
-                <label htmlFor="inputPassword" className="sr-only">Contraseña</label>
-                <input type="password" onChange={e => handleInputChange(e)} id="inputPassword" name="password" className="form-control mb-2" placeholder="Contraseña" required=""></input>
-                {showInvalidCrendentials()}
-                <button className="btn btn-lg btn-primary btn-block mt-2" type="submit">Iniciar sesión</button>
-                <hr />
-                <Link to='signUp'>
-                    <button className="btn btn-md btn-success btn-block mt-2" type="submit">Crear una cuenta</button>
-                </Link>
-            </form>
+        <div className="container mt-5">
+            <h1>Iniciar sesión</h1>
+            <div id="login-form" className="text-center m-3">
+                <form onSubmit={e => { props.login(e, data) }}
+                    className="form-signin border rounded">
+                    <input type="email" onChange={e => handleInputChange(e)} id="inputEmail" name="email" className="form-control mb-1" placeholder="Correo electrónico" required="" autoFocus=""></input>
+                    <input type="password" onChange={e => handleInputChange(e)} id="inputPassword" name="password" className="form-control mb-2" placeholder="Contraseña" required=""></input>
+                    {showInvalidCrendentials()}
+                    <button className="btn btn-lg btn-primary rounded-0 btn-block" type="submit">Iniciar sesión</button>
+                    <hr />
+                    <Link to='signUp'>
+                        <button className="btn btn-md btn-outline-success rounded-0 btn-block mt-2" type="submit">Crear una cuenta</button>
+                    </Link>
+                </form>
+            </div>
         </div>
+
     )
 }
 

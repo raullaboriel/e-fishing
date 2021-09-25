@@ -3,11 +3,6 @@ import CartProduct from './CartProduct'
 
 const Cart = (props) => {
 
-    const removeFromCart = (id) => {
-        const tmpCart = props.cart.filter(product => product.id !== id);
-        props.setCart(tmpCart);
-    }
-
     const mostrarSubTotal = () => {
         let subtotal = 0;
         if (props.cart.length !== 0) {
@@ -29,7 +24,7 @@ const Cart = (props) => {
         if (props.cart.length === 0) {
             return (
                 <div className="d-flex justify-content-center mt-5">
-                    <h3 className="text-secondary">El carrito esta vacio</h3>
+                    <h3 className="text-secondary">El carrito está vacio</h3>
                 </div>
             )
         }
@@ -42,10 +37,10 @@ const Cart = (props) => {
                     <CartProduct
                         AddOneToCart={props.AddOneToCart}
                         product={product} key={index}
-                        removeFromCart={removeFromCart}
+                        removeFromCart={props.removeFromCart}
                         cart={props.cart}
                         setCart={props.setCart}
-                        RemoveOneToCart={props.RemoveOneToCart}
+                        RemoveOneFromCart={props.RemoveOneToCart}
                     />)}
             </div>
             <div >

@@ -46,10 +46,53 @@ function App() {
   }, [cart])
 
   const getCart = async () => {
-    await axios.post('https://localhost:5001/CartProducts', null, {withCredentials: true})
-    .then(response => {
-      setCart(response.data);
-    })
+    await axios.post('https://localhost:5001/CartProducts/Cart', null, { withCredentials: true })
+      .then(response => {
+        setCart(response.data);
+      })
+  }
+
+  //If there is a user logged:
+  const modifyCloudCartProductAmount = async (ProductId, amount) => {
+    if (user != null) {
+      try {
+        const cartProduct = {
+          id: 0, //Any int: Id will automaticaly be given in backend
+          id_user: 0, //Any int: Because id_user will be given in backend
+          id_product: ProductId,
+          amount: amount,
+        }
+        await axios.put('https://localhost:5001/CartProducts', cartProduct, { withCredentials: true });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
+
+  const addToCloudCartProduct = async (ProductId, amount) => {
+    if (user != null) {
+      try {
+        const cartProduct = {
+          id: 0, //Any because Id will automaticaly be given in backend as primary key
+          id_user: 0, //Any Because id_user will be given in backend
+          id_product: ProductId,
+          amount: amount,
+        }
+        await axios.post('https://localhost:5001/CartProducts', cartProduct, { withCredentials: true });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
+
+  const RemoveFromCloudCartProduct = async (ProductId) => {
+    if (user != null) {
+      try {
+        await axios.delete(`https://localhost:5001/CartProducts/${ProductId}`, { withCredentials: true });
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
 
   const login = async (e, credentials) => {
@@ -85,7 +128,11 @@ function App() {
 
   const logout = async (e) => {
     e.preventDefault();
-    await axios.post('https://localhost:5001/users/logout', null, { withCredentials: true }).then(() => setUser(null));
+    await axios.post('https://localhost:5001/users/logout', null, { withCredentials: true })
+      .then(() => {
+        setUser(null)
+        setCart([]);
+      });
   }
 
   const getProducts = async () => {
@@ -116,21 +163,30 @@ function App() {
 
     if (index !== -1) {
       currentCart[index].amount = parseInt(currentCart[index].amount) + parseInt(amount);
-      setCart([...currentCart]);
+      modifyCloudCartProductAmount(currentCart[index].id, currentCart[index].amount);
     } else {
       product.amount = parseInt(amount);
       currentCart.push(product);
-      setCart([...currentCart]);
+      addToCloudCartProduct(product.id, amount);
     }
+    setCart([...currentCart]);
+  }
+
+  const removeFromCart = (id) => {
+    const tmpCart = cart.filter(product => product.id !== id);
+    setCart(tmpCart);
+    RemoveFromCloudCartProduct(id);
   }
 
   const AddOneToCart = (id) => {
+    const index = cart.findIndex(element => element.id === id);
     setCart(
       cart.map(element => element.id === id ? { ...element, amount: element.amount + 1 } : element)
     )
+    modifyCloudCartProductAmount(id, cart[index].amount + 1);
   }
 
-  const RemoveOneToCart = (id) => {
+  const RemoveOneFromCart = (id) => {
     let tmpCart = cart;
     const index = tmpCart.findIndex(e => e.id === id);
 
@@ -139,6 +195,7 @@ function App() {
     } else {
       tmpCart[index].amount -= 1;
       setCart([...tmpCart]);
+      modifyCloudCartProductAmount(id, cart[index].amount);
     }
   }
 
@@ -160,7 +217,7 @@ function App() {
         </Route>
 
         <Route path='/cart'>
-          <Cart cart={cart} setCart={setCart} AddOneToCart={AddOneToCart} RemoveOneToCart={RemoveOneToCart} />
+          <Cart cart={cart} removeFromCart={removeFromCart} setCart={setCart} AddOneToCart={AddOneToCart} RemoveOneToCart={RemoveOneFromCart} />
         </Route>
 
         <Route path='/login'>

@@ -49,7 +49,7 @@ const CartProduct = (props) => {
                     <div className="ml-lg-3 col-lg-5 col-md-6 col-6 align-self-md-center">
                         <div className="input-group input-spinner">
                             <div className="input-group-prepend bg-white">
-                                <button title='Quitar uno' onClick={() => props.RemoveOneToCart(props.product.id)} name="minus" className="btn btn-white border" type="button" id="button-plus">
+                                <button title='Quitar uno' onClick={() => props.RemoveOneFromCart(props.product.id)} name="minus" className="btn btn-white border" type="button" id="button-plus">
                                     <i className="fa fa-minus text-secondary"></i>
                                 </button>
                             </div>
