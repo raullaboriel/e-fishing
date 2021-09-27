@@ -4,16 +4,6 @@ import Product from '../Product/Product'
 import { Link } from 'react-router-dom'
 
 const Shop = (props) => {
-    /*
-    const showByCategory = (element, category, index) => {
-        if (element.category === category) {
-            return <Product key={index} product={element} />
-        } else {
-            return null;
-        }
-    }
-    */
-
     const category = (category) => {
         return (
             <Link style={{ color: 'black' }} to={`/categories/${category}`} onClick={() => props.handleActiveCategoryChange(category)}>
@@ -31,7 +21,7 @@ const Shop = (props) => {
     }
 
     if (props.categories === []) {
-        return <div></div>
+        return (<div></div>);
     }
 
     return (

@@ -32,7 +32,7 @@ const Login = (props) => {
                     <input type="email" onChange={e => handleInputChange(e)} id="inputEmail" name="email" className="form-control mb-1" placeholder="Correo electrónico" required="" autoFocus=""></input>
                     <input type="password" onChange={e => handleInputChange(e)} id="inputPassword" name="password" className="form-control mb-2" placeholder="Contraseña" required=""></input>
                     {showInvalidCrendentials()}
-                    <button className="btn btn-lg btn-primary rounded-0 btn-block" type="submit">Iniciar sesión</button>
+                    <button className="btn btn-lg btn-primary rounded-0 btn-block mt-2" type="submit">Iniciar sesión</button>
                     <hr />
                     <Link to='signUp'>
                         <button className="btn btn-md btn-outline-success rounded-0 btn-block mt-2" type="submit">Crear una cuenta</button>

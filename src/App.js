@@ -15,6 +15,7 @@ import {
   BrowserRouter as Router,
   Switch
 } from 'react-router-dom'
+import Main from './components/Account/Main';
 
 function App() {
   const [correctCredentials, setCorrectCredentials] = useState(true);
@@ -25,25 +26,25 @@ function App() {
   const [activeCategory, setActiveCategory] = useState('Todo');
 
   useEffect(() => {
-    const checkIfSigned = async () => {
-      await axios.post('https://localhost:5001/users/user', null, { withCredentials: true })
-        .then(response => setUser(response.data))
-        .catch(() => setUser(null));
-    }
     checkIfSigned();
-  }, []);
-
-  useEffect(() => {
-    getProducts();
-  }, []);
-
-  useEffect(() => {
     getCategories();
+    getProducts();
   }, []);
 
   useEffect(() => {
     ls.set("efishing-cart", cart);
   }, [cart])
+
+  const checkIfSigned = async () => {
+    await axios.post('https://localhost:5001/users/user', null, { withCredentials: true })
+      .then(response => {
+        if(response.status === 200){
+          setUser(response.data)
+        }else{
+          setUser(null)
+        }
+      });
+  }
 
   const getCart = async () => {
     await axios.post('https://localhost:5001/CartProducts/Cart', null, { withCredentials: true })
@@ -200,7 +201,13 @@ function App() {
   }
 
   if (user === undefined) {
-    return (<div></div>);
+    return (
+      <div className="loader-inner bg-transparent">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -230,6 +237,10 @@ function App() {
 
         <Route path='/products/:name/:id' >
           <ProductPreview addToCart={addToCart} />
+        </Route>
+
+        <Route path='/account'>
+          <Main user={user}/>
         </Route>
       </Switch>
     </Router>

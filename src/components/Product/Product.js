@@ -6,27 +6,35 @@ const Product = (props) => {
     const [image, setImage] = useState(null);
 
     useEffect(() => {
+        let isMounted = true;
         const chargeImage = async (id) => {
             try {
-                const response = await axios.get(`https://localhost:5001/images/${id}`);
-                setImage(response.data);
+                await axios.get(`https://localhost:5001/images/${id}`)
+                    .then(response => {
+                        if(isMounted){
+                            setImage(response.data);
+                        }
+                    })
             } catch (e) {
                 console.log(e);
             }
         }
         chargeImage(props.product.id);
+        return () => {
+            isMounted = false;
+        }    
     }, [props.product.id])
 
     if (image === null) {
         return (<div></div>);
     }
-
+    
     return (
         <div className="col mb-5">
             <div className="card h-100 w-100 rounded-0 border-0">
                 <div className="text-center p-lg-2" style={{ width: 'auto', height: '210px' }} focusable="false">
                     <Link to={`/products/${props.product.name.replaceAll(' ', '-')}/${props.product.id}`}>
-                        <img className="img-product  " src={image.uris[0]} alt="..."></img>
+                        <img className="img-product" src={image.uris[0]} alt="..."></img>
                     </Link>
                 </div>
                 <div className="card-body p-4">
@@ -41,7 +49,7 @@ const Product = (props) => {
                     <div className="d-flex flex-row mt-auto justify-content-between">
                         <span style={{ fontSize: '15px' }} className="text-secondary">{props.product.brand}</span>
                         <div>
-                            <button onClick={() => props.addToCart(props.product, 1)} className="btn btn-warning rounded-0">
+                            <button disabled={props.product.stock < 1} onClick={() => props.addToCart(props.product, 1)} className="btn btn-warning rounded-0" aria-label='Add to cart'>
                                 <i className="fa fa-plus text-secondary"></i>
                             </button>
                         </div>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router';
 
 const ProductPreview = (props) => {
-    const { id } = useParams();
+    let { id } = useParams();
     const [amount, setAmount] = useState(1);
     const [showMore, setShowMore] = useState(false);
 
@@ -89,7 +89,7 @@ const ProductPreview = (props) => {
                             </a>
                         </div>
                     </div>
-                    <div style={{backgroundColor: 'whitesmoke'}} className="col-md-6 rounded-lg p-md-4">
+                    <div style={{ backgroundColor: 'whitesmoke' }} className="col-md-6 rounded-lg p-md-4">
                         <h1 className="display-5 fw-bolder h1">{product.name}</h1>
                         <div className="d-flex flex-row mb-3">
                             <div className="mb-1 bg-dark text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.weight} g</div>
@@ -101,7 +101,7 @@ const ProductPreview = (props) => {
                         </div>
                         {product.stock <= 0 &&
                             <div className="pb-2">
-                                <span style={{fontSize: '18px'}} className="text-warning">No disponible</span>
+                                <span style={{ fontSize: '18px' }} className="text-warning">No disponible</span>
                             </div>
                         }
                         <div className="d-flex mb-3">
@@ -113,9 +113,9 @@ const ProductPreview = (props) => {
                         </div>
 
                         {showMore ?
-                            <div style={{ height: '245px', overflow: 'hidden' }}><p style={{fontSize: '18px'}} className="lead">{product.description}</p></div>
+                            <div style={{ height: '245px', overflow: 'hidden' }}><p style={{ fontSize: '18px' }} className="lead">{product.description}</p></div>
                             :
-                            <div><p style={{fontSize: '18px'}} className="lead">{product.description}</p></div>
+                            <div><p style={{ fontSize: '18px' }} className="lead">{product.description}</p></div>
                         }
                         <a className="text-secondary" href="." onClick={e => onShowMore(e)} >
                             {product.description.length > 550 && { ...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span> }}

@@ -10,15 +10,21 @@ const CartProduct = (props) => {
     }, [props.product.amount]);
 
     useEffect(() => {
+        let isCancelled = false; //This local variable helps to avoid setImage() when component is unmounted
         const chargeImage = async (id) => {
             try {
                 const response = await axios.get(`https://localhost:5001/images/${id}`);
-                setImage(response.data);
+                if (!isCancelled) {
+                    setImage(response.data);
+                }
             } catch (e) {
                 console.log(e);
             }
         }
         chargeImage(props.product.id);
+        return () => {
+            isCancelled = true;
+        }
     }, [props.product.id]);
 
     if (image === null) {
@@ -55,7 +61,7 @@ const CartProduct = (props) => {
                             </div>
                             <input disabled type="text" value={getAmount} className="form-control text-center bg-white" name="amount" style={{ fontWeight: 'bold', color: '#111827', fontFamily: 'Roboto, sans-serif' }} min={1}></input>
                             <div className="input-group-append">
-                                <button  title='Agregar uno más' onClick={() => props.AddOneToCart(props.product.id)} name="plus" className="btn btn-white border" type="button" id="button-minus">
+                                <button title='Agregar uno más' onClick={() => props.AddOneToCart(props.product.id)} name="plus" className="btn btn-white border" type="button" id="button-minus">
                                     <i className="fa fa-plus text-secondary"></i>
                                 </button>
                             </div>

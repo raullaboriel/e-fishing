@@ -139,7 +139,7 @@ const AddProduct = (props) => {
                             <div className="row align-items-center">
                                 <div className='col mr-md-1'>
                                     <select onChange={e => handleDataChange(e)} className="custom-select" id="inputGroupSelect01">
-                                        {props.categories.map((category, index) => <option value={category}>{category}</option>)}
+                                        {props.categories.map((category, index) => <option key={index} value={category}>{category}</option>)}
                                     </select>
                                 </div>
                                 <div className="col">
