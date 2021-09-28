@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import { Redirect } from 'react-router';
 import EmailModal from './EmailModal';
+import NameModal from './NameModal';
+import PasswordModal from './PasswordModal';
 
 Modal.setAppElement('#root')
 
@@ -18,9 +20,15 @@ const Main = (props) => {
         );
     }
 
+    const onUserSaveChanges = () => {
+        props.isUserSigned();
+    }
+
     return (
         <div className="container mt-5">
-            <EmailModal isOpen={isOpen.email} setIsOpen={setIsOpen}/>
+            <NameModal isOpen={isOpen.name} setIsOpen={setIsOpen} user={props.user} onUserSaveChanges={onUserSaveChanges}/>
+            <EmailModal isOpen={isOpen.email} setIsOpen={setIsOpen} user={props.user} onUserSaveChanges={onUserSaveChanges}/>
+            <PasswordModal isOpen={isOpen.password} setIsOpen={setIsOpen} user={props.user}/>
             <h1 className="mb-4">
                 Cuenta
             </h1>
@@ -38,7 +46,7 @@ const Main = (props) => {
                                     </td>
                                     <td className="border-left-0 text-right">
                                         <div className="m-3">
-                                            <button className="btn btn-light border ">
+                                            <button onClick={() => setIsOpen({...isOpen, name: true})} className="btn btn-light border ">
                                                 Editar
                                             </button>
                                         </div>
@@ -68,7 +76,7 @@ const Main = (props) => {
                                     </td>
                                     <td className="border-left-0 text-right">
                                         <div className="m-3">
-                                            <button className="btn btn-light border">
+                                            <button onClick={() => setIsOpen({...isOpen, password: true})} className="btn btn-light border">
                                                 Editar
                                             </button>
                                         </div>

@@ -26,7 +26,7 @@ function App() {
   const [activeCategory, setActiveCategory] = useState('Todo');
 
   useEffect(() => {
-    checkIfSigned();
+    isUserSigned();
     getCategories();
     getProducts();
   }, []);
@@ -35,7 +35,7 @@ function App() {
     ls.set("efishing-cart", cart);
   }, [cart])
 
-  const checkIfSigned = async () => {
+  const isUserSigned = async () => {
     await axios.post('https://localhost:5001/users/user', null, { withCredentials: true })
       .then(response => {
         if(response.status === 200){
@@ -240,7 +240,7 @@ function App() {
         </Route>
 
         <Route path='/account'>
-          <Main user={user}/>
+          <Main user={user} isUserSigned={isUserSigned}/>
         </Route>
       </Switch>
     </Router>

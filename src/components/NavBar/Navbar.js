@@ -19,17 +19,21 @@ const Navbar = (props) => {
             );
         }
         return (
-            <div className="btn-group">
-                <Link to='' className="btn btn-transparent" aria-label='name'>{props.user.name}</Link>
-                <Link to='' type="button" className="btn btn-transparent dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label='Account dropdown'>
-                    <span className="sr-only">Toggle Dropdown</span>
-                </Link>
-                <div className="dropdown-menu">
-                    <Link to='/account' className="dropdown-item" aria-label='My account'>Mi cuenta</Link>
-                    <div className="dropdown-divider"></div>
-                    <Link to='' onClick={(e) => props.logout(e)} className="dropdown-item" aria-label='Logout'>Cerrar sesión<i className="ml-2 fa fa-sign-out" aria-hidden="true"></i></Link>
+            <li className="nav-link mr-4">
+                <div className="btn-group">
+                    <Link to='/account' className='text-dark mr-2'  aria-label='name'>{props.user.name}</Link>
+                    <Link to='' className="text-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label='Account dropdown'>
+                        <span className="sr-only">Toggle Dropdown</span>
+                    </Link>
+                    <div className="dropdown-menu">
+                        <Link to='/account' className="dropdown-item" aria-label='My account'>Mi cuenta</Link>
+                        <Link to='' className="dropdown-item" aria-label='My orders'>Mis pedidos</Link>
+                        <div className="dropdown-divider"></div>
+                        <Link to='' onClick={(e) => props.logout(e)} className="dropdown-item" aria-label='Logout'>Cerrar sesión<i className="ml-2 fa fa-sign-out" aria-hidden="true"></i></Link>
+                    </div>
                 </div>
-            </div>)
+            </li>
+        )
     }
 
     const isAdmin = () => {
@@ -59,7 +63,7 @@ const Navbar = (props) => {
                     <li><Link className="nav-link" to='/' aria-label='Home'>Inicio</Link></li>
                     <li>{isAdmin()}</li>
                 </ul>
-                <ul className="ml-auto navbar-nav">
+                <ul className="ml-auto mr-3 navbar-nav">
                     {showLogin()}
                     <li id="ex3" className='hidden-sm nav-link'>
                         <Link to='/cart' aria-label='Shopping cart'>
