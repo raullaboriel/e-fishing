@@ -29,14 +29,14 @@ const ProductPreview = (props) => {
     const carouselImage = (imageUri, index) => {
         if (index === 0) {
             return (
-                <div key={index} className="carousel-item active product-img-container">
-                    <img alt='' className="img-product-preview" src={imageUri} data-holder-rendered="true"></img>
+                <div key={index} className="carousel-item active">
+                    <img alt='' className="img-product-preview " src={imageUri} data-holder-rendered="true"></img>
                 </div>
             )
         } else {
             return (
-                <div key={index} className="carousel-item product-img-container">
-                    <img alt='' className="img-product-preview" src={imageUri} data-holder-rendered="true"></img>
+                <div key={index} className="carousel-item ">
+                    <img alt='' className="img-product-preview " src={imageUri} data-holder-rendered="true"></img>
                 </div>
             )
         }
@@ -55,7 +55,7 @@ const ProductPreview = (props) => {
                 console.log(e);
             }
         }
-        if (product.description.length > 550) {
+        if (product.description.length > 700) {
             setShowMore(true);
         }
         getProduct();
@@ -76,7 +76,7 @@ const ProductPreview = (props) => {
                 <div className="row gx-4 gx-lg-5 align-items-center">
                     <div className="col-md-6">
                         <div id="carouselExampleCaptions" className="carousel slide" data-interval="false">
-                            <div className="carousel-inner mb-lg-0 mb-md-0 mb-3 text-center">
+                            <div className="carousel-inner mb-lg-0 mb-md-0 text-center">
                                 {product.image.uris.map((uri, index) => carouselImage(uri, index))}
                             </div>
                             <a className="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
@@ -87,17 +87,28 @@ const ProductPreview = (props) => {
                                 <span className="fa fa-chevron-right" aria-hidden="true"></span>
                                 <span className="sr-only">Next</span>
                             </a>
+                            <ol style={{ backgroundColor: 'rgba(0, 0, 0, 0.19)' }} className="rounded-lg carousel-indicators">
+                                <li data-target="#carouselExampleCaptions" data-slide-to='0' className="active"></li>
+                                
+                                {product.image.uris.map((element, index) => {
+                                    if(index === 0){
+                                        return null
+                                    }else{
+                                        return (<li key={index} data-target="#carouselExampleCaptions" data-slide-to={`${index}`}></li>)
+                                    }
+                                })}
+                            </ol>
                         </div>
                     </div>
-                    <div style={{ backgroundColor: 'whitesmoke' }} className="col-md-6 rounded-lg p-md-4">
+                    <div style={{ backgroundColor: 'lightblue' }} className="col-md-6 rounded-lg p-md-4">
                         <h1 className="display-5 fw-bolder h1">{product.name}</h1>
                         <div className="d-flex flex-row mb-3">
-                            <div className="mb-1 bg-dark text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.weight} g</div>
-                            <div className="mb-1 bg-dark text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.size} cm</div>
+                            <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }} className="mb-1 text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.weight} g</div>
+                            <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }} className="mb-1 text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.size} cm</div>
                         </div>
                         <div className="fs-5 mb-3">
                             {/*<span className="text-decoration-line-through">$45.00</span>*/}
-                            <span className=" h5">${product.price}</span>
+                            <span className="font-weight-bold h5">${product.price}</span>
                         </div>
                         {product.stock <= 0 &&
                             <div className="pb-2">
@@ -118,7 +129,7 @@ const ProductPreview = (props) => {
                             <div><p style={{ fontSize: '18px' }} className="lead">{product.description}</p></div>
                         }
                         <a className="text-secondary" href="." onClick={e => onShowMore(e)} >
-                            {product.description.length > 550 && { ...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span> }}
+                            {product.description.length > 700 && { ...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span> }}
                         </a>
                     </div>
                 </div>

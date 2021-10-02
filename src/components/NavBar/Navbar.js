@@ -11,7 +11,7 @@ const Navbar = (props) => {
     const showLogin = () => {
         if (!props.user) {
             return (
-                <ul className="navbar-nav">
+                <ul className="navbar-nav mr-4">
                     <li>
                         <Link className="nav-link" to="/login">Iniciar sesion<i className="ml-2 fa fa-user" aria-hidden="true" aria-label='Login'></i></Link>
                     </li>

@@ -37,7 +37,7 @@ const NameModal = (props) => {
     const saveChanges = async (e) => {
         e.preventDefault();
 
-        await axios.put('https://localhost:5001/users/EditName', data, { withCredentials: true })
+        await axios.put('https://localhost:5001/users/name', data, { withCredentials: true })
             .then(response => {
                 clearData();
                 props.onUserSaveChanges();
@@ -71,7 +71,7 @@ const NameModal = (props) => {
                     <button onClick={() => props.setIsOpen({ ...props.isOpen, name: false })} className="btn btn-primary">
                         Cancelar
                     </button>
-                    <button type="submit" className="btn btn-light">
+                    <button disabled={data.name === props.user.name && data.lastname === props.user.lastname} type="submit" className="btn btn-light">
                         Guardar cambios
                     </button>
                 </div>

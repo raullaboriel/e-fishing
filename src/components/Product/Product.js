@@ -11,7 +11,7 @@ const Product = (props) => {
             try {
                 await axios.get(`https://localhost:5001/images/${id}`)
                     .then(response => {
-                        if(isMounted){
+                        if (isMounted) {
                             setImage(response.data);
                         }
                     })
@@ -22,19 +22,29 @@ const Product = (props) => {
         chargeImage(props.product.id);
         return () => {
             isMounted = false;
-        }    
+        }
     }, [props.product.id])
 
-    if (image === null) {
-        return (<div></div>);
+    const onShowImage = () => {
+        if (image !== null) {
+            return (
+                <img className="img-product align-self-center" src={image.uris[0]} alt="..."></img>
+            )
+        } else {
+            return (
+                <div className="spinner-border m-5" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+            )
+        }
     }
-    
+
     return (
         <div className="col mb-5">
             <div className="card h-100 w-100 rounded-0 border-0">
-                <div className="text-center p-lg-2" style={{ width: 'auto', height: '210px' }} focusable="false">
+                <div className="p-lg-2 d-flex align-content-center justify-content-center flex-wrap" style={{ width: 'auto', height: '210px' }} focusable="false">
                     <Link to={`/products/${props.product.name.replaceAll(' ', '-')}/${props.product.id}`}>
-                        <img className="img-product" src={image.uris[0]} alt="..."></img>
+                        {onShowImage()}
                     </Link>
                 </div>
                 <div className="card-body p-4">

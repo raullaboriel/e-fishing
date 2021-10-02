@@ -1,6 +1,6 @@
 import React from 'react'
 import CartProduct from './CartProduct'
-
+import { Link } from 'react-router-dom'
 const Cart = (props) => {
 
     const mostrarSubTotal = () => {
@@ -33,6 +33,9 @@ const Cart = (props) => {
         <div className='container mt-5'>
             <h1>Carrito</h1>
             <div className="mt-3">
+                <div className='d-flex justify-content-end'>
+                    <Link to='/' className='btn btn-outline-primary mb-2'>Seguir comprando</Link>
+                </div>
                 {props.cart.map((product, index) =>
                     <CartProduct
                         AddOneToCart={props.AddOneToCart}
@@ -47,6 +50,8 @@ const Cart = (props) => {
                 {mostrarSubTotal()}
                 {emptyCartMessage()}
             </div>
+            <br />
+            <br />
         </div>
     )
 }

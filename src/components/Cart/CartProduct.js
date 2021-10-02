@@ -36,9 +36,9 @@ const CartProduct = (props) => {
             <div className="d-flex flex-md-row flex-column">
                 <div className="col-lg-6 pl-0 pr-1 col-md-7 col-12">
                     <div className="d-flex flex-md-row flex-column p-lg-0 pl-1">
-                        <div className="col-md-6 row">
-                            <div className="card-img-top text-center" style={{ maxWidth: '100%', height: '150px' }}>
-                                <img alt='Imagen del producto' className="align-self-start cart-product-img p-2 img-fluid rounded" src={image.uris[0]} />
+                        <div className="col-md-6 ">
+                            <div className="p-lg-2 d-flex align-content-center justify-content-center flex-wrap" style={{ width: 'auto', height: '150px' }}>
+                                <img alt='Imagen del producto' className="cart-product-img p-2 rounded" src={image.uris[0]} />
                             </div>
                         </div>
                         <div className="col-md-6 row-sm align-self-center">

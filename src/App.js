@@ -36,7 +36,7 @@ function App() {
   }, [cart])
 
   const isUserSigned = async () => {
-    await axios.post('https://localhost:5001/users/user', null, { withCredentials: true })
+    await axios.post('https://localhost:5001/users', null, { withCredentials: true })
       .then(response => {
         if(response.status === 200){
           setUser(response.data)
@@ -220,7 +220,7 @@ function App() {
         </Route>
 
         <Route path='/addProduct' >
-          <AddProduct categories={categories} productsList={productsList} setProductsList={setProductsList} user={user} />
+          <AddProduct categories={categories} setCategories={setCategories} productsList={productsList} setProductsList={setProductsList} user={user} />
         </Route>
 
         <Route path='/cart'>

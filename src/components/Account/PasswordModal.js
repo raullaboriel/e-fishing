@@ -21,15 +21,23 @@ const PasswordModal = (props) => {
         confirmPassword: ''
     });
 
+    const [isValidPassword, setIsValidPassword] = React.useState(true);
+
 
     const saveChanges = async (e) => {
         e.preventDefault();
 
-        await axios.put('https://localhost:5001/users/EditEmail', data, { withCredentials: true })
+        await axios.put('https://localhost:5001/users/password', data, { withCredentials: true })
             .then(response => {
                 clearData();
-                props.setIsOpen({...props.isOpen, name: false});
-            });
+                props.setIsOpen({ ...props.isOpen, name: false });
+            })
+            .catch(() => {
+                setIsValidPassword(false);
+                setTimeout(() => {
+                    setIsValidPassword(true);
+                }, 10000)
+            })
     }
 
     const [isValidPass, setIsValidPass] = React.useState(true);
@@ -72,27 +80,33 @@ const PasswordModal = (props) => {
                 <div className="modal-body">
                     <div className='mb-1'>
                         <span className='font-weight-bold'>Contraseña actual: </span>
-                        <input onChange={e => handleInputChange(e)} value={data.currentPassword} name='currentPassword' type="password" className="form-control" />
+                        <input required onChange={e => handleInputChange(e)} value={data.currentPassword} name='currentPassword' type="password" className="form-control" />
+                        {
+                            !isValidPassword &&
+                            <div className=" ">
+                                <small id="e" className="form-text text-danger">La contraseña es incorrecta.</small>
+                            </div>
+                        }
                     </div>
                     <div className='mb-1'>
                         <span className='font-weight-bold'>Nueva contraseña: </span>
-                        <input onChange={e => handleInputChange(e)} value={data.newPassword} name='newPassword' type="password" className="form-control" />
+                        <input required onChange={e => handleInputChange(e)} value={data.newPassword} name='newPassword' type="password" className="form-control" />
                     </div>
                     <div className='mb-1'>
                         <span className='font-weight-bold'>Confirmar contraseña: </span>
-                        <input onChange={e => handleInputChange(e)} value={data.confirmPassword} name="confirmPassword" type="password" className="form-control" />
+                        <input required onChange={e => handleInputChange(e)} value={data.confirmPassword} name="confirmPassword" type="password" className="form-control" />
                     </div>
                     <div>
                         {
                             !isValidPass &&
                             <div className=" ">
-                                <small id="e" className="form-text text-danger">Las contraseñas no inciden</small>
+                                <small id="e" className="form-text text-danger">Las contraseñas no inciden.</small>
                             </div>
                         }
                         {
                             (((data.newPassword.length >= 1 && data.newPassword.length < 8) || (data.confirmPassword.length >= 1 && data.confirmPassword.length < 8)) && isValidPass) &&
                             <div className=" ">
-                                <small id="e" className="form-text text-danger">La contraseña es muy corta</small>
+                                <small id="e" className="form-text text-danger">La contraseña es muy corta.</small>
                             </div>
                         }
                     </div>

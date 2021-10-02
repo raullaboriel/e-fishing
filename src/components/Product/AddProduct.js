@@ -1,11 +1,14 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Redirect } from 'react-router'
 
 const AddProduct = (props) => {
 
-    const [showAlert, setShowAlert] = useState(false);
     const [images, setImages] = useState(null);
+    const [showAddCategory, setShowAddCategory] = useState(false);
+    const [category, setCategory] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
+
     const [data, setData] = useState({
         name: '',
         brand: '',
@@ -15,37 +18,19 @@ const AddProduct = (props) => {
         description: '',
         size: '',
         weight: '',
-        stock: '',
+        stock: ''
     });
 
-
-    useEffect(() => {
-        onShowAlert();
-    })
-
-    const onShowAlert = () => {
-        if (showAlert) {
-            window.setTimeout(() => {
-                setShowAlert(false)
-            }, 5000)
-        }
-    }
-
-    const alert = () => {
-        return (
-            <div className="alert alert-success" role="alert">
-                Producto agregado correctamente.
-            </div>
-        )
-    }
-
     const handleDataChange = e => {
-        e.preventDefault();
+        console.log(e.target.name, e.target.value)
         setData({
             ...data,
             [e.target.name]: e.target.value
         })
-        console.log(data);
+    }
+
+    const handleCategoryChange = (e) => {
+        setCategory(e.target.value);
     }
 
     const addProduct = async (e) => {
@@ -59,26 +44,28 @@ const AddProduct = (props) => {
 
             setData(product);
 
-            const response = await axios.post('https://localhost:5001/products', data, { withCredentials: true });
-            if (response.status === 200) {
-                setShowAlert(true);
-                setData({
-                    name: '',
-                    brand: '',
-                    price: '',
-                    model: '',
-                    description: '',
-                    category: '',
-                    size: '',
-                    weight: '',
-                    stock: ''
-                })
-            }
-            if (images != null) {
-                for (let index = 0; index < images.length; index++) {
-                    uploadImage(response.data, images[index]);
-                }
-            }
+            await axios.post('https://localhost:5001/products', data, { withCredentials: true })
+                .then(response => {
+                    setData({
+                        name: '',
+                        brand: '',
+                        price: '',
+                        model: '',
+                        description: '',
+                        category: '',
+                        size: '',
+                        weight: '',
+                        stock: ''
+                    })
+
+                    if (images != null) {
+                        for (let index = 0; index < images.length; index++) {
+                            uploadImage(response.data, images[index]);
+                        }
+                    }
+
+                    onShowAlert();
+                });
         } catch (e) {
             console.error(e);
         }
@@ -100,6 +87,61 @@ const AddProduct = (props) => {
         setImages(e.target.files);
     }
 
+    const onAddCategory = () => {
+        setShowAddCategory(false);
+
+        if (category !== '') {
+            let currentCategories = props.categories;
+            currentCategories.push(category);
+            props.setCategories([...currentCategories]);
+            setCategory('');
+        }
+    }
+
+    const onShowAlert = () => {
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 5000)
+    }
+
+
+    const categorySection = () => {
+        if (!showAddCategory) {
+            return (
+                <div className="row align-items-center">
+                    <div className='col mr-md-1'>
+                        <select required onChange={e => handleDataChange(e)} className="custom-select" id="inputGroupSelect01" name='category'>
+                            <option value={''}>Selecciona una categoria</option>
+                            {props.categories.map((category, index) => <option key={index} value={category}>{category}</option>)}
+                        </select>
+                    </div>
+                    <div className="col">
+                        <button type="button" onClick={() => setShowAddCategory(true)} className="btn btn-link row align-items-center">
+                            <i className="text-primary mr-2 fa fa-plus" aria-hidden="true"></i>
+                            <span>Agregar categoria</span>
+                        </button>
+                    </div>
+                </div>
+            )
+        }
+
+        return (
+            <div className="flex-fill ">
+                <div className="d-flex flex-row">
+                    <div className="input-group">
+                        <input onChange={(e) => handleCategoryChange(e)} value={category} type="text" className="form-control" placeholder="Escriba la categoria" aria-label="Recipient's username" aria-describedby="button-addon2"></input>
+                        <div className="input-group-append">
+                            <button onClick={() => onAddCategory()} className="btn btn-outline-success" type="submit" id="button-addon2">
+                                Agregar categoria
+                            </button>
+                        </div>
+                    </div>
+                    <button onClick={() => setShowAddCategory(false)} type="button" className="btn btn-link">Seleccinar</button>
+                </div>
+            </div>
+        )
+    }
 
     if (props.user === null || props.user.admin === false) {
         return (<Redirect to='/'></Redirect>);
@@ -108,7 +150,13 @@ const AddProduct = (props) => {
     return (
         <div className="container mt-5">
             <h1>Agregar producto</h1>
-            {showAlert && alert()}
+
+            {showAlert &&
+                <div className="alert alert-success" role="alert">
+                    <i className="fa fa-check" aria-hidden="true"></i> Producto agregado correctamente.
+                </div>
+            }
+
             <div className="mt-3">
                 <form onSubmit={e => addProduct(e)} className='d-flex flex-column'>
                     <div className='d-flex flex-md-row flex-column mb-md-3'>
@@ -134,21 +182,9 @@ const AddProduct = (props) => {
                     </div>
 
                     <div className='d-flex flex-lg-row flex-md-row flex-column mb-md-3'>
-                        <div className="flex-fill col pl-0 mr-md-2">
+                        <div className="flex-fill col pl-0 pr-0 mr-md-2">
                             <small><b><span>Categoria</span></b></small>
-                            <div className="row align-items-center">
-                                <div className='col mr-md-1'>
-                                    <select onChange={e => handleDataChange(e)} className="custom-select" id="inputGroupSelect01">
-                                        {props.categories.map((category, index) => <option key={index} value={category}>{category}</option>)}
-                                    </select>
-                                </div>
-                                <div className="col">
-                                    <button type="button" onClick={() => console.log('sad')} className="btn btn-link row align-items-center">
-                                        <i className="text-primary mr-2 fa fa-plus" aria-hidden="true"></i>
-                                        <span>Agregar categoria</span>
-                                    </button>
-                                </div>
-                            </div>
+                            {categorySection()}
                         </div>
                         <div className='col flex-fill p-0'>
                             <small><b><span>Tamaño</span></b></small>
