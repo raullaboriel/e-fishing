@@ -25,7 +25,7 @@ const EmailModal = (props) => {
 
 
     const handleInputChange = (e) => {
-        if(e.target.name === 'email'){
+        if (e.target.name === 'email') {
             setIsValidEmail(true);
         }
         setData({
@@ -60,7 +60,8 @@ const EmailModal = (props) => {
                 if (response.data) { //if response.data !== null
                     setIsValidEmail(false);
                 } else {
-                    setIsValidEmail(true);                }
+                    setIsValidEmail(true);
+                }
             })
     }
 
@@ -79,7 +80,7 @@ const EmailModal = (props) => {
                 <div className="modal-body">
                     <span className="font-weight-bold">E-mail: </span>
                     <input required onChange={e => handleInputChange(e)} value={data.email} onBlur={() => validateEmail()} type="email" className="form-control" name="email" />
-                    {!isValidEmail && (data.email !== props.user.email) ?  <small className="form-text text-danger">Lo sentimos, ese correo ya está en uso.</small> : null}
+                    {!isValidEmail && (data.email !== props.user.email) ? <small className="form-text text-danger">Lo sentimos, ese correo ya está en uso.</small> : null}
                     <span className="font-weight-bold">Contraseña: </span>
                     <input required disabled={data.email === props.user.email} onChange={e => handleInputChange(e)} value={data.password} type="password" className="form-control" name="password" />
                     {!isValidPassword && <small className="form-text text-danger">La contraseña es incorrecta.</small>}

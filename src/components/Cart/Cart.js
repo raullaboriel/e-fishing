@@ -50,8 +50,6 @@ const Cart = (props) => {
                 {mostrarSubTotal()}
                 {emptyCartMessage()}
             </div>
-            <br />
-            <br />
         </div>
     )
 }

@@ -32,15 +32,21 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (user && user !== 'LOADING_USER') {
+      getCart();
+    }
+  }, [user])
+
+  useEffect(() => {
     ls.set("efishing-cart", cart);
   }, [cart])
 
   const isUserSigned = async () => {
     await axios.post('https://localhost:5001/users', null, { withCredentials: true })
       .then(response => {
-        if(response.status === 200){
-          setUser(response.data)
-        }else{
+        if (response.status === 200) {
+          setUser(response.data);
+        } else {
           setUser(null)
         }
       });
@@ -98,6 +104,8 @@ function App() {
 
   const login = async (e, credentials) => {
     e.preventDefault();
+
+    setUser('LOADING_USER')
     await axios.post('https://localhost:5001/users/login', credentials, { withCredentials: true })
       .then(response => {
         if (response.status === 200) {
@@ -107,7 +115,11 @@ function App() {
         }
       })
       .catch(error => {
+        setUser(null);
         setCorrectCredentials(false);
+        setTimeout(() => {
+          setCorrectCredentials(true);
+        }, 8000);
       });
   }
 
@@ -228,7 +240,7 @@ function App() {
         </Route>
 
         <Route path='/login'>
-          <Login user={user} setUser={setUser} login={login} correctCredentials={correctCredentials} />
+          <Login user={user} login={login} correctCredentials={correctCredentials} />
         </Route>
 
         <Route path='/signup' >
@@ -240,9 +252,12 @@ function App() {
         </Route>
 
         <Route path='/account'>
-          <Main user={user} isUserSigned={isUserSigned}/>
+          <Main user={user} isUserSigned={isUserSigned} />
         </Route>
       </Switch>
+      <br />
+      <br />
+      <br />
     </Router>
   );
 }

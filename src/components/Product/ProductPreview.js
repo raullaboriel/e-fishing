@@ -55,7 +55,7 @@ const ProductPreview = (props) => {
                 console.log(e);
             }
         }
-        if (product.description.length > 700) {
+        if (product.description.length > 420) {
             setShowMore(true);
         }
         getProduct();
@@ -72,9 +72,9 @@ const ProductPreview = (props) => {
 
     return (
         <section>
-            <div className="px-4 px-lg-5 py-5">
+            <div className="px-4 px-lg-5 py-lg-5">
                 <div className="row gx-4 gx-lg-5 align-items-center">
-                    <div className="col-md-6">
+                    <div className="col-md-6 mb-lg-0 mb-md-0 mb-3">
                         <div id="carouselExampleCaptions" className="carousel slide" data-interval="false">
                             <div className="carousel-inner mb-lg-0 mb-md-0 text-center">
                                 {product.image.uris.map((uri, index) => carouselImage(uri, index))}
@@ -89,18 +89,18 @@ const ProductPreview = (props) => {
                             </a>
                             <ol style={{ backgroundColor: 'rgba(0, 0, 0, 0.19)' }} className="rounded-lg carousel-indicators">
                                 <li data-target="#carouselExampleCaptions" data-slide-to='0' className="active"></li>
-                                
+
                                 {product.image.uris.map((element, index) => {
-                                    if(index === 0){
+                                    if (index === 0) {
                                         return null
-                                    }else{
+                                    } else {
                                         return (<li key={index} data-target="#carouselExampleCaptions" data-slide-to={`${index}`}></li>)
                                     }
                                 })}
                             </ol>
                         </div>
                     </div>
-                    <div style={{ backgroundColor: 'lightblue' }} className="col-md-6 rounded-lg p-md-4">
+                    <div style={{ backgroundColor: 'rgba(173, 216, 230, 0.3)' }} className="col-md-6 rounded-lg p-4">
                         <h1 className="display-5 fw-bolder h1">{product.name}</h1>
                         <div className="d-flex flex-row mb-3">
                             <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }} className="mb-1 text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.weight} g</div>
@@ -124,12 +124,16 @@ const ProductPreview = (props) => {
                         </div>
 
                         {showMore ?
-                            <div style={{ height: '245px', overflow: 'hidden' }}><p style={{ fontSize: '18px' }} className="lead">{product.description}</p></div>
+                            <div style={{ height: '160px', overflow: 'hidden' }}>
+                                <p style={{ fontSize: '18px' }} className="lead">{product.description}</p>
+                            </div>
                             :
-                            <div><p style={{ fontSize: '18px' }} className="lead">{product.description}</p></div>
+                            <div >
+                                <p style={{ fontSize: '18px' }} className="lead mb-0">{product.description}</p>
+                            </div>
                         }
                         <a className="text-secondary" href="." onClick={e => onShowMore(e)} >
-                            {product.description.length > 700 && { ...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span> }}
+                            {product.description.length > 420 && { ...showMore ? <span>Ver mas...</span> : <span>Ver menos...</span> }}
                         </a>
                     </div>
                 </div>

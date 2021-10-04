@@ -3,7 +3,7 @@ import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 const Login = (props) => {
 
-    const [data, setData] = useState({ email: '', password: '' })
+    const [data, setData] = useState({ email: '', password: '', remenberMe: false })
 
     const handleInputChange = (e) => {
         e.preventDefault();
@@ -15,32 +15,76 @@ const Login = (props) => {
 
     const showInvalidCrendentials = () => {
         if (!props.correctCredentials) {
-            return (<small className="form-text text-danger">Correo o contraseña incorrectos.</small>)
+            return (<small className="form-text text-danger">El correo o contraseña son incorrectos.</small>)
         }
     }
 
-    if (props.user) {
+    if (props.user !== null && props.user !== 'LOADING_USER' ) {
         return (<Redirect to="/"></Redirect>);
     }
 
     return (
-        <div className="container mt-5">
-            <h1>Iniciar sesión</h1>
-            <div id="login-form" className="text-center m-3">
-                <form onSubmit={e => { props.login(e, data) }}
-                    className="form-signin border rounded">
-                    <input type="email" onChange={e => handleInputChange(e)} id="inputEmail" name="email" className="form-control mb-1" placeholder="Correo electrónico" required="" autoFocus=""></input>
-                    <input type="password" onChange={e => handleInputChange(e)} id="inputPassword" name="password" className="form-control mb-2" placeholder="Contraseña" required=""></input>
-                    {showInvalidCrendentials()}
-                    <button className="btn btn-lg btn-primary rounded-0 btn-block mt-2" type="submit">Iniciar sesión</button>
-                    <hr />
-                    <Link to='signUp'>
-                        <button className="btn btn-md btn-outline-success rounded-0 btn-block mt-2" type="submit">Crear una cuenta</button>
-                    </Link>
-                </form>
+        <div className="container">
+            <div className="row justify-content-center">
+                <div className="col-lg-5">
+                    <div className="card shadow-lg border-0 rounded-lg mt-5">
+                        <div className="card-header">
+                            <h3 className="text-center font-weight-light my-4">
+                                Iniciar sesión
+                            </h3>
+                        </div>
+                        <div className="card-body">
+                            <form onSubmit={e => props.login(e, data)}>
+                                <div className="form-group">
+                                    <label className="small mb-1" htmlFor="inputEmailAddress">
+                                        Email
+                                    </label>
+                                    <input required className="form-control py-4" onChange={e => handleInputChange(e)} id="inputEmailAddress" name="email" placeholder="Ingresa el correo" type="email" />
+                                </div>
+                                <div className="form-group">
+                                    <label className="small mb-1" htmlFor="inputPassword">
+                                        Contraseña
+                                    </label>
+                                    <input required onChange={e => handleInputChange(e)} name='password' className="form-control py-4" id="inputPassword" placeholder="Ingresa la contraseña" type="password" />
+                                    {showInvalidCrendentials()}
+                                </div>
+                                <div className="form-group">
+                                    <div className="custom-control custom-checkbox">
+                                        <input onChange={() => setData({...data, remenberMe: !data.remenberMe})} checked={data.remenberMe} name='remenberMe' className="custom-control-input" id="rememberPasswordCheck" type="checkbox" />
+                                        <label className="custom-control-label" htmlFor="rememberPasswordCheck">
+                                            Recuerdame
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                    <Link className="small" to="">
+                                        ¿Olvidaste la contraseña?
+                                    </Link>
+                                    {
+                                        props.user === 'LOADING_USER' ?
+                                            <button disabled type='submit' className="btn btn-primary">
+                                                Iniciar sesión
+                                                <span className="ml-2 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            </button>
+                                            :
+                                            <button type='submit' className="btn btn-primary">
+                                                Iniciar sesión
+                                            </button>
+                                    }
+                                </div>
+                            </form>
+                        </div>
+                        <div className="card-footer text-center">
+                            <div className="small">
+                                <Link to='signUp'>
+                                    ¿No tienes cuenta? Crea una aquí
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     )
 }
 
