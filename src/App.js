@@ -16,6 +16,7 @@ import {
   Switch
 } from 'react-router-dom'
 import Main from './components/Account/Main';
+import ForgotPassword from './components/User/ForgotPassword';
 
 function App() {
   const [correctCredentials, setCorrectCredentials] = useState(true);
@@ -185,6 +186,12 @@ function App() {
     setCart([...currentCart]);
   }
 
+  const cartProductsAmount = () => {
+    let amount = 0;
+    cart.forEach(product => { amount += parseInt(product.amount) });
+    return amount;
+  }
+
   const removeFromCart = (id) => {
     const tmpCart = cart.filter(product => product.id !== id);
     setCart(tmpCart);
@@ -224,7 +231,7 @@ function App() {
 
   return (
     <Router>
-      <Navbar user={user} setUser={setUser} cart={cart} logout={logout} />
+      <Navbar user={user} setUser={setUser} cartProductsAmount={cartProductsAmount} cart={cart} logout={logout} />
       <Switch>
 
         <Route path={['/', '/categories/:category/']} exact style={style}>
@@ -236,7 +243,7 @@ function App() {
         </Route>
 
         <Route path='/cart'>
-          <Cart cart={cart} removeFromCart={removeFromCart} setCart={setCart} AddOneToCart={AddOneToCart} RemoveOneToCart={RemoveOneFromCart} />
+          <Cart cart={cart} cartProductsAmount={cartProductsAmount} removeFromCart={removeFromCart} setCart={setCart} AddOneToCart={AddOneToCart} RemoveOneToCart={RemoveOneFromCart} />
         </Route>
 
         <Route path='/login'>
@@ -253,6 +260,10 @@ function App() {
 
         <Route path='/account'>
           <Main user={user} isUserSigned={isUserSigned} />
+        </Route>
+
+        <Route path='/forgotPassword'>
+          <ForgotPassword user={user} isUserSigned={isUserSigned} />
         </Route>
       </Switch>
       <br />

@@ -57,7 +57,7 @@ const Login = (props) => {
                                     </div>
                                 </div>
                                 <div className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                    <Link className="small" to="">
+                                    <Link className="small" to='/forgotPassword'>
                                         ¿Olvidaste la contraseña?
                                     </Link>
                                     {

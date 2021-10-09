@@ -100,11 +100,11 @@ const ProductPreview = (props) => {
                             </ol>
                         </div>
                     </div>
-                    <div style={{ backgroundColor: 'rgba(173, 216, 230, 0.3)' }} className="col-md-6 rounded-lg p-4">
-                        <h1 className="display-5 fw-bolder h1">{product.name}</h1>
+                    <div /*style={{ backgroundColor: 'rgba(107, 167, 191, 0.3)' }}*/ className="col-md-6 rounded-lg p-4">
+                        <h1 className="display-5 fw-bolder font-weight-bold">{product.name}</h1>
                         <div className="d-flex flex-row mb-3">
-                            <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }} className="mb-1 text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.weight} g</div>
-                            <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }} className="mb-1 text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center rounded">{product.size} cm</div>
+                            <div style={{ backgroundColor: 'rgba(107, 167, 191, 0.9)' }} className="mb-1 text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center font-weight-bold rounded">{product.weight} g</div>
+                            <div style={{ backgroundColor: 'rgba(107, 167, 191, 0.9)' }} className="mb-1 text-white col-lg-3 mr-lg-2 mr-2 col-5 text-center font-weight-bold rounded">{product.size} cm</div>
                         </div>
                         <div className="fs-5 mb-3">
                             {/*<span className="text-decoration-line-through">$45.00</span>*/}
@@ -117,7 +117,7 @@ const ProductPreview = (props) => {
                         }
                         <div className="d-flex mb-3">
                             <input className="form-control text-center me-3 mr-1" onChange={e => handleAmountChange(e)} disabled={product.stock <= 0} id="inputQuantity" type="num" value={amount} style={{ maxWidth: "3rem" }}></input>
-                            <button className="btn btn-primary flex-shrink-0" onClick={() => props.addToCart(product, amount)} disabled={product.stock <= 0} type="button">
+                            <button className="btn btn-outline-success flex-shrink-0" onClick={() => props.addToCart(product, amount)} disabled={product.stock <= 0} type="button">
                                 <i className="bi-cart-fill me-1"></i>
                                 Agregar al carrito
                             </button>

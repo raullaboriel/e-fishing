@@ -13,7 +13,6 @@ const Shop = (props) => {
                     </div>
                     <div className="col-1">
                         <span className="text-dark" style={{ fontSize: '15px' }}>{category.toUpperCase()}</span>
-
                     </div>
                 </div>
             </Link>
@@ -27,11 +26,11 @@ const Shop = (props) => {
     return (
         <div>
             <div className="hidden-lg">
-                <SubNavbar categories={props.categories} handleActiveCategoryChange={props.handleActiveCategoryChange} />
+                <SubNavbar categories={props.categories} activeCategory={props.activeCategory} handleActiveCategoryChange={props.handleActiveCategoryChange} />
             </div>
-            <div className="container-fluid px-4 px-lg-5 mt-5">
+            <div className="container-fluid px-lg-5 mt-lg-5 mt-3">
                 <div className="row">
-                    <div className="col-2 col-categories hidden-sm">
+                    <div className="col-2 col-categories hidden-md">
                         <h4 className="">Categorias</h4>
                         <div className="col">
                             <Link style={{ color: 'black' }} to='/' onClick={() => props.handleActiveCategoryChange('Todo')}>
@@ -48,18 +47,13 @@ const Shop = (props) => {
                             {props.categories.map((element, index) => <div key={index}>{category(element)}</div>)}
                         </div>
                     </div>
-                        <div className="row col-sm row-cols-1 row-cols-md-3 row-cols-xl-9">
+                    <div className='col'>
+                        <div className="row row-cols-1 row-cols-md-3 row-cols-xl-9">
                             {props.productsList.map((element, index) => <Product key={index} addToCart={props.addToCart} product={element} />)}
                         </div>
+                    </div>
                 </div>
             </div>
-            {/*
-            <div className="d-flex flex-row container mt-5">
-                <div className="col-md-10 col card-group">
-                    {props.productsList.map((element, index) => <Product key={index} AddOneToCar={props.AddOneToCart} product={element} />)}
-                </div>
-            </div>
-            */}
         </div>
     )
 }

@@ -3,21 +3,12 @@ import CartProduct from './CartProduct'
 import { Link } from 'react-router-dom'
 const Cart = (props) => {
 
-    const mostrarSubTotal = () => {
+    const subtotal = () => {
         let subtotal = 0;
-        if (props.cart.length !== 0) {
-            [...props.cart].map(product => (subtotal += parseFloat(product.price) * product.amount))
-            return (
-                <div className="d-flex flex-row justify-content-between mt-4">
-                    <div className="col-md-3 col-sm-6 align-self-center">
-                        <h5 className="">Subtotal: ${subtotal.toFixed(2)}</h5>
-                    </div>
-                    <div className='col-md-3 col-sm-6 justify-content-end p-0'>
-                        <button className="btn btn-warning form-control"><small><b>Proceder al pago</b></small></button>
-                    </div>
-                </div>
-            );
-        }
+        [...props.cart].map(product => (subtotal += parseFloat(product.price) * product.amount))
+        return (
+            subtotal.toFixed(2)
+        );
     }
 
     const emptyCartMessage = () => {
@@ -29,25 +20,60 @@ const Cart = (props) => {
             )
         }
     }
+
     return (
-        <div className='container mt-5'>
-            <h1>Carrito</h1>
-            <div className="mt-3">
+        <div className='container mt-4'>
+            <div className='d-flex justify-content-between pl-3'>
+                <h1>Carrito</h1>
                 <div className='d-flex justify-content-end'>
-                    <Link to='/' className='btn btn-outline-primary mb-2'>Seguir comprando</Link>
+                    <Link to='/' className='btn font-weight-bold btn-link mb-2'>
+                        Seguir comprando
+                        <i className="fa fa-arrow-right ml-2" aria-hidden="true"></i>
+                    </Link>
                 </div>
-                {props.cart.map((product, index) =>
-                    <CartProduct
-                        AddOneToCart={props.AddOneToCart}
-                        product={product} key={index}
-                        removeFromCart={props.removeFromCart}
-                        cart={props.cart}
-                        setCart={props.setCart}
-                        RemoveOneFromCart={props.RemoveOneToCart}
-                    />)}
+            </div>
+            <div className="mt-4">
+                <div className='d-flex flex-xl-row flex-column'>
+                    {
+                        props.cart.length !== 0 &&
+                        <div className='d-flex flex-row justify-content-between bg-white sticky-top ml-3 mr-3 pb-2 pt-2 hidden-lg'>
+                            <span className='lead align-self-center'>
+                                    Subtotal ({props.cartProductsAmount()} {props.cartProductsAmount() === 1 ? 'producto' : 'productos'}): <b>${subtotal()}</b>
+                                </span>
+                            <div className='col-6'>
+                                <button className="btn-sm btn-warning mt-1 mb-2 shadow-sm form-control">
+                                    Proceder al pago
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    <div className='col-xl-9 col'>
+                        {props.cart.map((product, index) =>
+                            <CartProduct
+                                AddOneToCart={props.AddOneToCart}
+                                product={product} key={index}
+                                removeFromCart={props.removeFromCart}
+                                cart={props.cart}
+                                setCart={props.setCart}
+                                RemoveOneFromCart={props.RemoveOneToCart}
+                            />)}
+                    </div>
+                    {
+                        props.cart.length !== 0 &&
+                        <div className='col-3 hidden-md'>
+                            <div>
+                                <span className='lead'>
+                                    Subtotal ({props.cartProductsAmount()} {props.cartProductsAmount() === 1 ? 'producto' : 'productos'}): <b>${subtotal()}</b>
+                                </span>
+                                <button className="btn-sm btn-warning mt-1 form-control shadow-sm">
+                                    Proceder al pago
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
             <div >
-                {mostrarSubTotal()}
                 {emptyCartMessage()}
             </div>
         </div>

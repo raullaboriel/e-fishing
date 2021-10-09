@@ -25,11 +25,11 @@ const Main = (props) => {
     }
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-4">
             <NameModal isOpen={isOpen.name} setIsOpen={setIsOpen} user={props.user} onUserSaveChanges={onUserSaveChanges}/>
             <EmailModal isOpen={isOpen.email} setIsOpen={setIsOpen} user={props.user} onUserSaveChanges={onUserSaveChanges}/>
             <PasswordModal isOpen={isOpen.password} setIsOpen={setIsOpen} user={props.user}/>
-            <h1 className="mb-4">
+            <h1 className="mb-4 pl-3">
                 Cuenta
             </h1>
             <section className="">

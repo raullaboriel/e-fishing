@@ -40,8 +40,8 @@ const Product = (props) => {
     }
 
     return (
-        <div className="col mb-5">
-            <div className="card h-100 w-100 rounded-0 border-0">
+        <div className="col mb-3">
+            <div className="card h-100 w-100 rounded border-0 p-2">
                 <div className="p-lg-2 d-flex align-content-center justify-content-center flex-wrap" style={{ width: 'auto', height: '210px' }} focusable="false">
                     <Link to={`/products/${props.product.name.replaceAll(' ', '-')}/${props.product.id}`}>
                         {onShowImage()}
@@ -59,8 +59,8 @@ const Product = (props) => {
                     <div className="d-flex flex-row mt-auto justify-content-between">
                         <span style={{ fontSize: '15px' }} className="text-secondary">{props.product.brand}</span>
                         <div>
-                            <button disabled={props.product.stock < 1} onClick={() => props.addToCart(props.product, 1)} className="btn btn-warning rounded-0" aria-label='Add to cart'>
-                                <i className="fa fa-plus text-secondary"></i>
+                            <button disabled={props.product.stock < 1} onClick={() => props.addToCart(props.product, 1)} title='Agregar al carrito' className="btn btn-warning rounded" aria-label='Add to cart'>
+                                <i className="fa fa-plus text-dark"></i>
                             </button>
                         </div>
                     </div>

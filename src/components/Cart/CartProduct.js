@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const CartProduct = (props) => {
     const [image, setImage] = useState(null);
@@ -32,7 +33,7 @@ const CartProduct = (props) => {
     }
 
     return (
-        <div className="card card-body mb-3 p-0 pb-lg-0 pb-2">
+        <div className="card card-body mb-2 p-0 pb-lg-0 pb-2">
             <div className="d-flex flex-md-row flex-column">
                 <div className="col-lg-6 pl-0 pr-1 col-md-7 col-12">
                     <div className="d-flex flex-md-row flex-column p-lg-0 pl-1">
@@ -67,10 +68,10 @@ const CartProduct = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-4 col-md-6 col-6 align-self-md-center">
-                        <div>
-                            <a title='Quitar del carrito' onClick={() => props.removeFromCart(props.product.id)} href="#." className="btn btn-light btn-round"><i className="fa fa-times" aria-hidden="true"></i> </a>
-                        </div>
+                    <div className="col-lg-4 col-md-6 col-6 align-self-md-center d-sm-flex justify-content-center">
+                        <Link to='#.' title='Quitar del carrito' onClick={() => props.removeFromCart(props.product.id)} className="btn btn-light btn-round">
+                            <i className="fa fa-times" aria-hidden="true"></i>
+                        </Link>
                     </div>
                 </div>
 

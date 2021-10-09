@@ -3,12 +3,6 @@ import { Link } from 'react-router-dom'
 import logo from '../../logo.png'
 
 const Navbar = (props) => {
-    const showCartAmount = () => {
-        let amount = 0;
-        props.cart.forEach(product => { amount += parseInt(product.amount) });
-        return amount;
-    }
-
     const showLogin = () => {
         if (!props.user) {
             return (
@@ -18,7 +12,7 @@ const Navbar = (props) => {
                     </li>
                 </ul>
             );
-        }else if(props.user.name !== undefined){
+        } else if (props.user.name !== undefined) {
             return (
                 <li className="nav-link mr-4 d-flex align-items-center">
                     <div className="btn-group">
@@ -43,20 +37,28 @@ const Navbar = (props) => {
             <button className="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
-            <ul className="ml-auto navbar-nav">
-                <li id="ex3" className='hidden-lg nav-link'>
+
+            <ul className="navbar-nav hidden-cart-lg show-xs">
+                <Link to='/' aria-label='Home'>
+                    <img src={logo} className='' alt='' style={{ maxHeight: '75px', maxWidth: 'auto' }} />
+                </Link>
+            </ul>
+
+            <ul className="navbar-nav hidden-cart-lg show-xs">
+                <li id="ex3" className='nav-link'>
                     <Link to='/cart' aria-label='Go to cart'>
-                        <span className="p1 fa-stack fa-1x has-badge" data-count={showCartAmount()}>
+                        <span className="p1 fa-stack fa-1x has-badge" data-count={props.cartProductsAmount()}>
                             <i className="text-dark p3 fa fa-shopping-cart fa-stack-2x fa-inverse" data-count="5"></i>
                         </span>
                     </Link>
                 </li>
             </ul>
-            <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <Link className="nav-link p-0" to='/' aria-label='Home' style={{color: 'grey'}}>
+
+            <div className="collapse navbar-collapse ml-3" id="navbarNavAltMarkup">
+                <Link className="nav-link p-0" to='/' aria-label='Home' style={{ color: 'grey' }}>
                     <ul className="navbar-nav mb-lg-0 ms-lg-4">
                         <li>
-                            <img src={logo} className='hidden-sm' alt='' style={{ maxHeight: '60px', maxWidth: 'auto' }} />
+                            <img src={logo} className='hidden-sm' alt='' style={{ maxHeight: '70px', maxWidth: 'auto' }} />
                         </li>
                         <li className='d-flex align-items-center font-weight-bold'>
                             eFishing
@@ -65,9 +67,9 @@ const Navbar = (props) => {
                 </Link>
                 <ul className="ml-auto mr-3 navbar-nav">
                     {showLogin()}
-                    <li id="ex3" className='hidden-sm nav-link d-flex align-items-center'>
+                    <li id="ex3" className='hidden-cart-sm nav-link d-flex align-items-center'>
                         <Link to='/cart' aria-label='Shopping cart'>
-                            <span className="p1 fa-stack fa-1x has-badge" data-count={showCartAmount()}>
+                            <span className="p1 fa-stack fa-1x has-badge" data-count={props.cartProductsAmount()}>
                                 <i className="text-dark p3 fa fa-shopping-cart fa-stack-2x fa-inverse" data-count="5"></i>
                             </span>
                         </Link>
